@@ -28,18 +28,24 @@
 } */
 
 .magestore-bannerslider-standard {
-	width: 100%;
+	  max-width: 100%;
+    width: auto;
+    height: auto;
 }
 
 @media only screen and (max-width: 768px) {
     .magestore-bannerslider-standard {
-    	width: 768px;
+    	  max-width: 100%;
+        width: auto;
+        height: auto;
     }
 }
 
 @media only screen and (max-width: 360px){
     .magestore-bannerslider-standard {
-    	width: 290px;
+    	  max-width: 100%;
+        width: auto;
+        height: auto;
     }
 }
 
