@@ -22,11 +22,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-    	<add id="Magestore_Bannerslider::bannerslider" title="Banner Slider" module="Magestore_Bannerslider" sortOrder="10" resource="Magestore_Bannerslider::bannerslider" parent="Magento_Backend::content"/>
+      <add id="Magestore_Bannerslider::bannerslider" title="Banner Slider" module="Magestore_Bannerslider" sortOrder="10" resource="Magestore_Bannerslider::bannerslider" parent="Magento_Backend::content"/>
 
         <!-- Magestore_Bannerslider::bannerslider_bannerslider -->
 
-		<add id="Magestore_Bannerslider::bannerslider_sliders" title="Manage Sliders" module="Magestore_Bannerslider" sortOrder="10" parent="Magestore_Bannerslider::bannerslider" action="bannerslideradmin/slider" resource="Magestore_Bannerslider::bannerslider_sliders"/>
+    <add id="Magestore_Bannerslider::bannerslider_sliders" title="Manage Sliders" module="Magestore_Bannerslider" sortOrder="10" parent="Magestore_Bannerslider::bannerslider" action="bannerslideradmin/slider" resource="Magestore_Bannerslider::bannerslider_sliders"/>
 
         <add id="Magestore_Bannerslider::bannerslider_banners" title="Manage Banners" module="Magestore_Bannerslider" sortOrder="10" parent="Magestore_Bannerslider::bannerslider" action="bannerslideradmin/banner" resource="Magestore_Bannerslider::bannerslider_banners"/>
 
