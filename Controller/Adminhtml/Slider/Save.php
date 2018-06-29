@@ -45,8 +45,10 @@ class Save extends \Magestore\Bannerslider\Controller\Adminhtml\Slider
             $sliderData = $formPostValues['slider'];
             $sliderId = isset($sliderData['slider_id']) ? $sliderData['slider_id'] : null;
             if (isset($sliderData['style_slide'])) {
-                if ($sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_ONE || $sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_THREE ||
-                    $sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_TWO || $sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_FOUR
+                if ($sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_ONE ||
+                    $sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_THREE ||
+                    $sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_TWO ||
+                    $sliderData['style_slide'] == Slider::STYLESLIDE_EVOLUTION_FOUR
                 ) {
                     $sliderData['animationB'] = $sliderData['animationA'];
                 } elseif ($sliderData['style_slide'] == Slider::STYLESLIDE_POPUP) {
@@ -74,7 +76,10 @@ class Save extends \Magestore\Bannerslider\Controller\Adminhtml\Slider
                 $model->save();
 
                 if (isset($formPostValues['slider_banner'])) {
-                    $bannerGridSerializedInputData = $this->_jsHelper->decodeGridSerializedInput($formPostValues['slider_banner']);
+                    $bannerGridSerializedInputData =
+                        $this->_jsHelper->decodeGridSerializedInput(
+                            $formPostValues['slider_banner']
+                        );
                     $bannerIds = [];
                     foreach ($bannerGridSerializedInputData as $key => $value) {
                         $bannerIds[] = $key;
@@ -113,7 +118,10 @@ class Save extends \Magestore\Bannerslider\Controller\Adminhtml\Slider
                 return $this->_getBackResultRedirect($resultRedirect, $model->getId());
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->messageManager->addException($e, __('Something went wrong while saving the slider.'));
+                $this->messageManager->addException(
+                    $e,
+                    __('Something went wrong while saving the slider.')
+                );
             }
 
             $this->_getSession()->setFormData($formPostValues);

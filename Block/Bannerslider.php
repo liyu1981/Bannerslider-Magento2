@@ -55,15 +55,13 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
     protected $_sliderCollectionFactory;
 
     /**
-     * [__construct description].
-     *
-     * @param \Magento\Framework\View\Element\Template\Context                $context
-     * @param \Magento\Framework\Registry                                     $coreRegistry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magestore\Bannerslider\Model\ResourceModel\Slider\CollectionFactory $sliderCollectionFactory
      * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory
-     * @param \Magento\Catalog\Model\CategoryFactory                          $categoryFactory
-     * @param \Magento\Store\Model\StoreManagerInterface                      $storeManager
-     * @param array                                                           $data
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -145,7 +143,7 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
         $category = $this->_coreRegistry->registry('current_category');
         if (!is_null($category)) {
             $categoryPathIds = $category->getPathIds();
-    
+
             foreach ($sliderCollection as $slider) {
                 $sliderCategoryIds = explode(',', $slider->getCategoryIds());
                 if (count(array_intersect($categoryPathIds, $sliderCategoryIds)) > 0) {

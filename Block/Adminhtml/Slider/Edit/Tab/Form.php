@@ -31,7 +31,9 @@ use Magestore\Bannerslider\Model\Status;
  * @module   Bannerslider
  * @author   Magestore Developer
  */
-class Form extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     const FIELD_NAME_SUFFIX = 'slider';
 
@@ -48,15 +50,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     protected $_bannersliderHelper;
 
     /**
-     * [__construct description].
-     *
-     * @param \Magento\Backend\Block\Template\Context                                $context            [description]
-     * @param \Magestore\Bannerslider\Helper\Data                                    $bannersliderHelper [description]
-     * @param \Magento\Framework\Registry                                            $registry           [description]
-     * @param \Magento\Framework\Data\FormFactory                                    $formFactory        [description]
-     * @param \Magento\Store\Model\System\Store                                      $systemStore        [description]
-     * @param \Magento\Config\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory       [description]
-     * @param array                                                                  $data               [description]
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magestore\Bannerslider\Helper\Data $bannersliderHelper
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Store\Model\System\Store $systemStore
+     * @param \Magento\Config\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory
+     * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -174,7 +174,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             ]
         );
 
-        $previewUrl = $this->_bannersliderHelper->getBackendUrl('*/*/preview', ['_current' => false]);
+        $previewUrl =
+            $this->_bannersliderHelper->getBackendUrl('*/*/preview', ['_current' => false]);
         $fieldMaps['style_slide'] = $fieldset->addField(
             'style_slide',
             'select',
@@ -294,7 +295,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
         $positionImage = [];
         for ($i = 1; $i <= 5; ++$i) {
-            $positionImage[] = $this->getViewFileUrl("Magestore_Bannerslider::images/position/bannerslider-ex{$i}.png");
+            $positionImage[] = $this->getViewFileUrl(
+                "Magestore_Bannerslider::images/position/bannerslider-ex{$i}.png"
+            );
         }
         $fieldMaps['position'] = $fieldset->addField(
             'position',
@@ -373,7 +376,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         ];
 
         if (!$slider->getId()) {
-            $slider->setStatus($isElementDisabled ? Status::STATUS_ENABLED : Status::STATUS_DISABLED);
+            $slider->setStatus($isElementDisabled
+                               ? Status::STATUS_ENABLED
+                               : Status::STATUS_DISABLED);
             $slider->addData($defaultData);
         }
 
@@ -396,10 +401,21 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      *
      * @return Magento\Config\Model\Config\Structure\Element\Dependency\Field [description]
      */
-    public function getDependencyField($refField, $negative = false, $separator = ',', $fieldPrefix = '')
-    {
+    public function getDependencyField(
+        $refField,
+        $negative = false,
+        $separator = ',',
+        $fieldPrefix = ''
+    ) {
         return $this->_fieldFactory->create(
-            ['fieldData' => ['value' => (string)$refField, 'negative' => $negative, 'separator' => $separator], 'fieldPrefix' => $fieldPrefix]
+            [
+                'fieldData' => [
+                    'value' => (string)$refField,
+                    'negative' => $negative,
+                    'separator' => $separator
+                ],
+                'fieldPrefix' => $fieldPrefix
+            ]
         );
     }
 
@@ -489,7 +505,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
     public function getPageTitle()
     {
-        return $this->getSlider()->getId() ? __("Edit Slider '%1'", $this->escapeHtml($this->getSlider()->getTitle())) : __('New Slider');
+        return $this->getSlider()->getId()
+            ? __("Edit Slider '%1'", $this->escapeHtml($this->getSlider()->getTitle()))
+            : __('New Slider');
     }
 
     /**

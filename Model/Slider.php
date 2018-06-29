@@ -78,6 +78,11 @@ class Slider extends \Magento\Framework\Model\AbstractModel
     const STYLESLIDE_FLEXSLIDER_FOUR = 10;
 
     /**
+     * livewise slider
+     */
+    const STYLESLIDE_LIVEWISE = 10001;
+
+    /**
      * position code of note slider.
      */
     const NOTE_POSITION_TOP_LEFT = 'top-left';
@@ -97,13 +102,11 @@ class Slider extends \Magento\Framework\Model\AbstractModel
     protected $_bannerCollectionFactory;
 
     /**
-     * constructor.
-     *
-     * @param \Magento\Framework\Model\Context                                $context
-     * @param \Magento\Framework\Registry                                     $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory
-     * @param \Magestore\Bannerslider\Model\ResourceModel\Slider                   $resource
-     * @param \Magestore\Bannerslider\Model\ResourceModel\Slider\Collection        $resourceCollection
+     * @param \Magestore\Bannerslider\Model\ResourceModel\Slider $resource
+     * @param \Magestore\Bannerslider\Model\ResourceModel\Slider\Collection $resourceCollection
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -128,7 +131,9 @@ class Slider extends \Magento\Framework\Model\AbstractModel
      */
     public function getOwnBanerCollection()
     {
-        return $this->_bannerCollectionFactory->create()->addFieldToFilter('slider_id', $this->getId());
+        return $this->_bannerCollectionFactory
+            ->create()
+            ->addFieldToFilter('slider_id', $this->getId());
     }
 
     /**

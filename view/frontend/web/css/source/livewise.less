@@ -1,0 +1,30 @@
+.magestore-bannerslider {
+
+    .magestore-bannerslide-livewise {
+        width: 1280px;
+        height: 640px;
+        margin-bottom: 60px;
+
+        .bannerslide-livewise {
+
+            .slide {
+                display: none;
+                transition-property: margin, filter, opacity;
+                transition-duration: 0.8s;
+            }
+
+            .slide.active, .slide.inactive {
+                display: block;
+                position: absolute;
+            }
+
+            .slide.inactive {
+                a {
+                    display: none;
+                }
+            }
+        }
+
+    }
+}
+

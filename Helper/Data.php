@@ -53,13 +53,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_categoryCollectionFactory;
 
     /**
-     * [__construct description].
      *
-     * @param \Magento\Framework\App\Helper\Context                      $context              [description]
-     * @param \Magento\Directory\Helper\Data                             $directoryData        [description]
-     * @param \Magento\Directory\Model\ResourceModel\Country\Collection       $countryCollection    [description]
-     * @param \Magento\Directory\Model\ResourceModel\Region\CollectionFactory $regCollectionFactory [description]
-     * @param \Magento\Store\Model\StoreManagerInterface                 $storeManager         [description]
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Directory\Helper\Data$directoryData
+     * @param \Magento\Directory\Model\ResourceModel\Country\Collection$countryCollection
+     * @param \Magento\Directory\Model\ResourceModel\Region\CollectionFactory $regCollectionFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -83,7 +82,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBaseUrlMedia($path = '', $secure = false)
     {
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA, $secure) . $path;
+        return $this->_storeManager
+            ->getStore()
+            ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA, $secure) . $path;
     }
 
     /**
@@ -150,6 +151,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             Slider::STYLESLIDE_FLEXSLIDER_TWO => 'FlexSlider 2',
             Slider::STYLESLIDE_FLEXSLIDER_THREE => 'FlexSlider 3',
             Slider::STYLESLIDE_FLEXSLIDER_FOUR => 'FlexSlider 4',
+            Slider::STYLESLIDE_LIVEWISE => 'Livewise'
         ];
     }
 
@@ -167,8 +169,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             [
                 'label' => __('Special Slider'),
                 'value' => [
-                    ['value' => Slider::STYLESLIDE_POPUP, 'label' => __('Pop up on Home page')],
-                    ['value' => Slider::STYLESLIDE_SPECIAL_NOTE, 'label' => __('Note displayed on all pages')],
+                    [
+                        'value' => Slider::STYLESLIDE_POPUP,
+                        'label' => __('Pop up on Home page')
+                    ],
+                    [
+                        'value' => Slider::STYLESLIDE_SPECIAL_NOTE,
+                        'label' => __('Note displayed on all pages')
+                    ],
                 ],
             ],
             [
@@ -210,6 +218,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     [
                         'label' => __('FlexSlider 4'),
                         'value' => Slider::STYLESLIDE_FLEXSLIDER_FOUR,
+                    ],
+                ],
+            ],
+            [
+                'label' => __('Livewise'),
+                'value' => [
+                    [
+                        'label' => __('Livewise'),
+                        'value' => Slider::STYLESLIDE_LIVEWISE,
                     ],
                 ],
             ],
@@ -290,7 +307,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             [
                 'label' => __('Popular positions'),
                 'value' => [
-                    ['value' => 'cms-page-content-top', 'label' => __('Homepage-Content-Top')],
+                    [
+                        'value' => 'cms-page-content-top',
+                        'label' => __('Homepage-Content-Top')
+                    ],
                 ],
             ],
             [
@@ -315,10 +335,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             [
                 'label' => __('Catalog and product'),
                 'value' => [
-                    ['value' => 'catalog-sidebar-right-top', 'label' => __('Catalog-Sidebar-Top-Right')],
-                    ['value' => 'catalog-sidebar-right-bottom', 'label' => __('Catalog-Sidebar-Bottom-Right')],
-                    ['value' => 'catalog-sidebar-left-top', 'label' => __('Catalog-Sidebar-Top-Left')],
-                    ['value' => 'catalog-sidebar-left-bottom', 'label' => __('Catalog-Sidebar-Bottom-Left')],
+                    [
+                        'value' => 'catalog-sidebar-right-top',
+                        'label' => __('Catalog-Sidebar-Top-Right')
+                    ],
+                    [
+                        'value' => 'catalog-sidebar-right-bottom',
+                        'label' => __('Catalog-Sidebar-Bottom-Right')
+                    ],
+                    [
+                        'value' => 'catalog-sidebar-left-top',
+                        'label' => __('Catalog-Sidebar-Top-Left')
+                    ],
+                    [
+                        'value' => 'catalog-sidebar-left-bottom',
+                        'label' => __('Catalog-Sidebar-Bottom-Left')
+                    ],
                     ['value' => 'catalog-content-top', 'label' => __('Catalog-Content-Top')],
                     ['value' => 'catalog-menu-top', 'label' => __('Catalog-Menu-Top')],
                     ['value' => 'catalog-menu-bottom', 'label' => __('Catalog-Menu-Bottom')],
@@ -328,10 +360,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             [
                 'label' => __('Category only'),
                 'value' => [
-                    ['value' => 'category-sidebar-right-top', 'label' => __('Category-Sidebar-Top-Right')],
-                    ['value' => 'category-sidebar-right-bottom', 'label' => __('Category-Sidebar-Bottom-Right')],
-                    ['value' => 'category-sidebar-left-top', 'label' => __('Category-Sidebar-Top-Left')],
-                    ['value' => 'category-sidebar-left-bottom', 'label' => __('Category-Sidebar-Bottom-Left')],
+                    [
+                        'value' => 'category-sidebar-right-top',
+                        'label' => __('Category-Sidebar-Top-Right')
+                    ],
+                    [
+                        'value' => 'category-sidebar-right-bottom',
+                        'label' => __('Category-Sidebar-Bottom-Right')
+                    ],
+                    [
+                        'value' => 'category-sidebar-left-top',
+                        'label' => __('Category-Sidebar-Top-Left')
+                    ],
+                    [
+                        'value' => 'category-sidebar-left-bottom',
+                        'label' => __('Category-Sidebar-Bottom-Left')
+                    ],
                     ['value' => 'category-content-top', 'label' => __('Category-Content-Top')],
                     ['value' => 'category-menu-top', 'label' => __('Category-Menu-Top')],
                     ['value' => 'category-menu-bottom', 'label' => __('Category-Menu-Bottom')],
@@ -341,9 +385,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             [
                 'label' => __('Product only'),
                 'value' => [
-                    ['value' => 'product-sidebar-right-top', 'label' => __('Product-Sidebar-Top-Right')],
-                    ['value' => 'product-sidebar-right-bottom', 'label' => __('Product-Sidebar-Bottom-Right')],
-                    ['value' => 'product-sidebar-left-top', 'label' => __('Product-Sidebar-Top-Left')],
+                    [
+                        'value' => 'product-sidebar-right-top',
+                        'label' => __('Product-Sidebar-Top-Right')
+                    ],
+                    [
+                        'value' => 'product-sidebar-right-bottom',
+                        'label' => __('Product-Sidebar-Bottom-Right')
+                    ],
+                    [
+                        'value' => 'product-sidebar-left-top',
+                        'label' => __('Product-Sidebar-Top-Left')
+                    ],
                     ['value' => 'product-content-top', 'label' => __('Product-Content-Top')],
                     ['value' => 'product-menu-top', 'label' => __('Product-Menu-Top')],
                     ['value' => 'product-menu-bottom', 'label' => __('Product-Menu-Bottom')],
@@ -353,9 +406,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             [
                 'label' => __('Customer'),
                 'value' => [
-                    ['value' => 'customer-content-top', 'label' => __('Customer-Content-Top')],
-                    ['value' => 'customer-sidebar-main-top', 'label' => __('Customer-Siderbar-Main-Top')],
-                    ['value' => 'customer-sidebar-main-bottom', 'label' => __('Customer-Siderbar-Main-Bottom')],
+                    [
+                        'value' => 'customer-content-top',
+                        'label' => __('Customer-Content-Top')
+                    ],
+                    [
+                        'value' => 'customer-sidebar-main-top',
+                        'label' => __('Customer-Siderbar-Main-Top')
+                    ],
+                    [
+                        'value' => 'customer-sidebar-main-bottom',
+                        'label' => __('Customer-Siderbar-Main-Bottom')
+                    ],
                 ],
             ],
             [

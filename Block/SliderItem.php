@@ -60,6 +60,11 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     const STYLESLIDE_CUSTOM_TEMPLATE = 'Magestore_Bannerslider::slider/custom.phtml';
 
     /**
+     * tempalte for livewise slider.
+     */
+    const STYLESLIDE_LIVEWISE = 'Magestore_Bannerslider::slider/livewise.phtml';
+
+    /**
      * Date conversion model.
      *
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
@@ -114,17 +119,15 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     protected $_stdTimezone;
 
     /**
-     * [__construct description].
-     *
-     * @param \Magento\Framework\View\Element\Template\Context                $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory
-     * @param \Magestore\Bannerslider\Model\SliderFactory                     $sliderFactory
+     * @param \Magestore\Bannerslider\Model\SliderFactory $sliderFactory
      * @param SliderModel $slider
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime                     $stdlibDateTime
-     * @param \Magestore\Bannerslider\Helper\Data                             $bannersliderHelper
-     * @param \Magento\Store\Model\StoreManagerInterface                      $storeManager
-     * @param \Magento\Framework\Stdlib\DateTime\Timezone                     $_stdTimezone
-     * @param array                                                           $data
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $stdlibDateTime
+     * @param \Magestore\Bannerslider\Helper\Data $bannersliderHelper
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Stdlib\DateTime\Timezone $_stdTimezone
+     * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -202,26 +205,31 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     public function setStyleSlideTemplate($styleSlideId)
     {
         switch ($styleSlideId) {
-            //Evolution slide
-            case SliderModel::STYLESLIDE_EVOLUTION_ONE:
-            case SliderModel::STYLESLIDE_EVOLUTION_TWO:
-            case SliderModel::STYLESLIDE_EVOLUTION_THREE:
-            case SliderModel::STYLESLIDE_EVOLUTION_FOUR:
-                $this->setTemplate(self::STYLESLIDE_EVOLUTION_TEMPLATE);
-                break;
+        //Evolution slide
+        case SliderModel::STYLESLIDE_EVOLUTION_ONE:
+        case SliderModel::STYLESLIDE_EVOLUTION_TWO:
+        case SliderModel::STYLESLIDE_EVOLUTION_THREE:
+        case SliderModel::STYLESLIDE_EVOLUTION_FOUR:
+            $this->setTemplate(self::STYLESLIDE_EVOLUTION_TEMPLATE);
+            break;
 
-            case SliderModel::STYLESLIDE_POPUP:
-                $this->setTemplate(self::STYLESLIDE_POPUP_TEMPLATE);
-                break;
-            //Note all page
-            case SliderModel::STYLESLIDE_SPECIAL_NOTE:
-                $this->setTemplate(self::STYLESLIDE_SPECIAL_NOTE_TEMPLATE);
-                break;
+        case SliderModel::STYLESLIDE_POPUP:
+            $this->setTemplate(self::STYLESLIDE_POPUP_TEMPLATE);
+            break;
 
-            // Flex slide
-            default:
-                $this->setTemplate(self::STYLESLIDE_FLEXSLIDER_TEMPLATE);
-                break;
+        //Note all page
+        case SliderModel::STYLESLIDE_SPECIAL_NOTE:
+            $this->setTemplate(self::STYLESLIDE_SPECIAL_NOTE_TEMPLATE);
+            break;
+
+        case SliderModel::STYLESLIDE_LIVEWISE:
+            $this->setTemplate(self::STYLESLIDE_LIVEWISE);
+            break;
+
+        // Flex slide
+        default:
+            $this->setTemplate(self::STYLESLIDE_FLEXSLIDER_TEMPLATE);
+            break;
         }
     }
 

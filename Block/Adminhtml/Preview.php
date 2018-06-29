@@ -40,9 +40,12 @@ class Preview extends \Magento\Backend\Block\Template
     /**
      * preview template for slider.
      */
-    const STYLESLIDE_EVOLUTION_PREVIEW_TEMPLATE = 'Magestore_Bannerslider::slider/preview/evolution.phtml';
-    const STYLESLIDE_SPECIAL_NOTE_PREVIEW_TEMPLATE = 'Magestore_Bannerslider::slider/preview/special/note.phtml';
-    const STYLESLIDE_FLEXSLIDER_PREVIEW_TEMPLATE = 'Magestore_Bannerslider::slider/preview/flexslider.phtml';
+    const STYLESLIDE_EVOLUTION_PREVIEW_TEMPLATE =
+        'Magestore_Bannerslider::slider/preview/evolution.phtml';
+    const STYLESLIDE_SPECIAL_NOTE_PREVIEW_TEMPLATE =
+        'Magestore_Bannerslider::slider/preview/special/note.phtml';
+    const STYLESLIDE_FLEXSLIDER_PREVIEW_TEMPLATE =
+        'Magestore_Bannerslider::slider/preview/flexslider.phtml';
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,

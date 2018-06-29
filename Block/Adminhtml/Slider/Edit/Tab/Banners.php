@@ -41,12 +41,10 @@ class Banners extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_bannerCollectionFactory;
 
     /**
-     * [__construct description].
-     *
-     * @param \Magento\Backend\Block\Template\Context                         $context
-     * @param \Magento\Backend\Helper\Data                                    $backendHelper
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory
-     * @param array                                                           $data
+     * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -87,10 +85,18 @@ class Banners extends \Magento\Backend\Block\Widget\Grid\Extended
                 $bannerIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('banner_id', array('in' => $bannerIds));
+                $this->getCollection()
+                    ->addFieldToFilter(
+                        'banner_id',
+                        array('in' => $bannerIds)
+                    );
             } else {
                 if ($bannerIds) {
-                    $this->getCollection()->addFieldToFilter('banner_id', array('nin' => $bannerIds));
+                    $this->getCollection()
+                        ->addFieldToFilter(
+                            'banner_id',
+                            array('nin' => $bannerIds)
+                        );
                 }
             }
         } else {

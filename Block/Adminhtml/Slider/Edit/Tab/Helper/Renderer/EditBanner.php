@@ -46,12 +46,10 @@ class EditBanner extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abst
     protected $_bannerFactory;
 
     /**
-     * [__construct description].
-     *
-     * @param \Magento\Backend\Block\Context              $context       [description]
-     * @param \Magento\Store\Model\StoreManagerInterface  $storeManager  [description]
-     * @param \Magestore\Bannerslider\Model\BannerFactory $bannerFactory [description]
-     * @param array                                       $data          [description]
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magestore\Bannerslider\Model\BannerFactory $bannerFactory
+     * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
@@ -73,6 +71,8 @@ class EditBanner extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abst
      */
     public function render(\Magento\Framework\DataObject $row)
     {
-        return '<a href="' . $this->getUrl('*/banner/edit', ['_current' => FALSE, 'banner_id' => $row->getId()]) . '" target="_blank">Edit</a> ';
+        return '<a href="' .
+               $this->getUrl('*/banner/edit', ['_current' => FALSE, 'banner_id' => $row->getId()]) .
+               '" target="_blank">Edit</a> ';
     }
 }
