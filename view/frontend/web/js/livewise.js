@@ -4,157 +4,124 @@ define([
 
     var SLIDE_GAP = 2;
 
-    function getCommonSlideCss(options) {
-        return {
-            'width': ''+options.width+'px',
-            'height': ''+options.height+'px',
-        };
+    function HorizSlider(slider_container_el, options) {
+        this.el = slider_container_el;
+        this.options = options;
+        this.slideMax = $('.slide', this.el).length;
+        this.slideCurrent = 1;
+        this.distanceMap = {};
+        this.advanceCurrent();
     }
 
-    function getLeftRightCommonSlideCss(options) {
-        return Object.assign({}, getCommonSlideCss(options), {
-            'opacity': '0.45',
-            'filter': 'grayscale(0.15)'
-        });
-    }
-
-    function getRightSlideCss(rightel, options) {
-        var img_url = $('a > img', rightel).attr('src');
-        return Object.assign({}, getLeftRightCommonSlideCss(options), {
-            'margin-left': ''+(options.width+SLIDE_GAP)+'px',
-            'background': 'url('+img_url+')'
-        });
-    }
-
-    function getRightRightSlide(rightrightel, options) {
-        var img_url = $('a > img', rightel).attr('src');
-        return Object.assign({}, getLeftRightCommonSlideCss(options), {
-            'margin-left': ''+(options.width*2+SLIDE_GAP)+'px',
-            'background': 'url('+img_url+')'
-        });
-    }
-
-    function getLeftSlideCss(leftel, options) {
-        var img_url = $('a > img', leftel).attr('src');
-        return Object.assign({}, getLeftRightCommonSlideCss(options), {
-            'margin-left': '-'+(options.width+SLIDE_GAP)+'px',
-            'background': 'url('+img_url+')',
-        });
-    }
-
-    function getLeftLeftSlideCss(leftleftel, options) {
-        var img_url = $('a > img', leftleftel).attr('src');
-        return Object.assign({}, getLeftRightCommonSlideCss(options), {
-            'margin-left': '-'+(options.width*2+SLIDE_GAP)+'px',
-            'background': 'url('+img_url+')',
-        });
-    }
-
-    function SlideGenerator(el) {
-        var all_slides = $('.slide', el).toArray();
-        this.slide_clones = all_slides.map(function(slide) { return $(slide).clone(); });
-        this.max = all_slides.length;
-        this.pos = 0;
-    };
-    SlideGenerator.prototype.gen = function() {
-        var r = $(this.slide_clones[this.pos]).clone();
-        this.pos += 1;
-        if (this.pos >= this.max) {
-            this.pos = 0;
-        }
-        return r;
+    HorizSlider.prototype.init = function() {
+        this.formatSlides();
+        return this;
     };
 
-    function prepareSlidesBeforeRotate(el, slide_generator) {
-        var all_slides = $('.slide', el);
-        for (var i = 0; i < all_slides.length; i++) {
-            var slide = $(all_slides[i]);
-            if (slide.hasClass('inactive') || slide.hasClass('active')) {
-                break;
-            } else {
-                slide.remove();
-                el.append(slide_generator.gen());
-            }
-        }
-    }
-
-    function getCenterSlide(el) {
-        var all_slides = $('.slide', el);
-        return $(all_slides[1]);
-    }
-
-    function getRightSlide(el) {
-        var all_slides = $('.slide', el);
-        return $(all_slides[2]);
-    }
-
-    function getLeftSlide(el) {
-        var all_slides = $('.slide', el);
-        return $(all_slides[0]);
-    }
-
-    function getRightRightSlide(el) {
-        var all_slides = $('.slide', el);
-        return $(all_slides[3]);
-    }
-
-    function initSlider(el, options, slide_generator) {
-        var all_slides = $('.slide', el);
-        if (all_slides.length == 2) {
-            el.append(slide_generator.gen()).append(slide_generator.gen());
-        } else if (all_slides.length == 3) {
-            el.append(slide_generator.gen());
-        }
-
-        var s1 = getCenterSlide(el);
-        s1.css(getCommonSlideCss(options)).addClass('active');
-        var s2 = getRightSlide(el);
-        s2.css(getRightSlideCss(s2, options)).addClass('inactive');
-        var s3 = getLeftSlide(el);
-        s3.css(getLeftSlideCss(s3, options)).addClass('inactive');
-    }
-
-    function rotateSliders(el, options, slide_generator, callback) {
-        prepareSlidesBeforeRotate(el, slide_generator);
-        var clearSliderEl = function(el) {
-            return el.attr('style', '')
-                .removeClass('inactive')
-                .removeClass('active');
-        };
-
-        var centerel = getCenterSlide(el);
-        var rightel = getRightSlide(el);
-        var leftel = getLeftSlide(el);
-        var rightrightel = getRightRightSlide(el);
-
-        clearSliderEl(leftel);
-        clearSliderEl(centerel).css(getLeftSlideCss(centerel, options)).addClass('inactive');
-        clearSliderEl(rightel).css(getCommonSlideCss(options)).addClass('active');
-        clearSliderEl(rightrightel).css(getRightSlideCss(rightrightel, options)).addClass('inactive');
-
-        callback();
-    }
-
-    function startSlider(el, options, slide_generator) {
-        options.transistion = options.transistion || 4500;
-        /*
-        window.lwr = function() {
-            rotateSliders(el, options, slide_generator);
-        };
-        */
-        setTimeout(function() {
-            rotateSliders(el, options, slide_generator, function() {
-                startSlider(el, options, slide_generator);
+    HorizSlider.prototype.formatSlides = function() {
+        var all_slides = $('.slide', this.el)
+            .removeClass('active')
+            .removeClass('inactive')
+            .toArray();
+        var self = this;
+        //var tl = new TimelineMax();
+        //console.log('liyuhk', tl);
+        all_slides.forEach(function(slide, index) {
+            var dist = self.distanceMap[index];
+            var marginLeft = dist * (self.options.width + SLIDE_GAP);
+            $(slide).css({
+                'background-size': ''+self.options.width+'px '+self.options.height+'px',
+                'width': ''+self.options.width+'px',
+                'height': ''+self.options.height+'px',
+                'margin-left': ''+marginLeft+'px'
+            })
+                .addClass(
+                    index == self.slideCurrent ? 'active'
+                        : (dist == -2 || dist == -1 || dist == 1 || dist == 2) ? 'inactive'
+                        : ''
+                )
+                //.on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(e) {
+                .one('transitionend', function(e) {
+                    if (index == self.slideCurrent) {
+                        console.log('liyuhk: time for animation!', e);
+                    }
+                    //$(this).off(e);
+                });
+            /*
+            $(slide).css({
+                'background-size': ''+self.options.width+'px '+self.options.height+'px',
+                'width': ''+self.options.width+'px',
+                'height': ''+self.options.height+'px'
             });
-        }, options.transistion);
+            var classToAdd = index == self.slideCurrent ? 'active'
+                : (dist == -2 || dist == -1 || dist == 1 || dist == 2) ? 'inactive'
+                : '';
+            tl.to(slide, 1, {
+                className: '+='+classToAdd,
+                marginLeft: ''+marginLeft+'px'
+            });
+            */
+        });
+
+        return this;
+    };
+
+    HorizSlider.prototype.advanceCurrent = function() {
+        this.slideCurrent += 1;
+        if (this.slideCurrent >= this.slideMax) {
+            this.slideCurrent = 0;
+        }
+        this.distanceMap = {};
+        for (var i=0; i<this.slideMax; i++) {
+            var j = this.slideCurrent + i;
+            if (j >= this.slideMax) {
+                j = j - this.slideMax;
+            }
+            var d = ((i + 1) >= this.slideMax) ? -1
+                :  ((i + 2) >= this.slideMax) ? -2
+                : i;
+            this.distanceMap[j] = d; 
+        }
+        //console.log(this.distanceMap);
+        return this;
+    };
+
+    HorizSlider.prototype.rotate = function() {
+        this.advanceCurrent();
+        this.formatSlides();
+        return this;
+    };
+
+    HorizSlider.prototype.start = function() {
+        var self = this;
+        this._timeout_handle = setTimeout(function() {
+            self.rotate();
+            self.start();
+        }, this.options.transistion);
+        return this;
+    };
+
+    HorizSlider.prototype.shutdown = function() {
+        if (this._timeout_handle) {
+            closeTimeout(this._timeout_handle);
+            this._timeout_handle = null;
+        }
     }
+
 
     $.fn.buildBannersliderLivewise = function(options) {
+        if (this._livewise_hs) {
+            this._livewise_hs.shutdown();
+            this._livewise_hs = null;
+        }
         options.width = options.width || 1280;
         options.height = options.height || 640;
-        var el = this;
-        el._slide_generator = new SlideGenerator(el);
-        initSlider(el, options, this._slide_generator);
-        startSlider(el, options, this._slide_generator);
+        options.transistion = options.transistion || 4500;
+        var hs = new HorizSlider(this, options);
+        hs.init();
+        hs.start();
+        //window.hs = hs;
+        this._livewise_hs = hs;
+        return hs;
     };
 });

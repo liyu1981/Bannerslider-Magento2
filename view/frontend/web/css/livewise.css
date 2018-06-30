@@ -1,18 +1,25 @@
 .magestore-bannerslider .magestore-bannerslide-livewise {
-  width: 1280px;
-  height: 640px;
+  max-width: 100%;
   margin-bottom: 60px;
 }
-.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slide {
+.magestore-bannerslider .magestore-bannerslide-livewise .with-animate {
+  transition-property: margin, filter, opacity;
+  transition-duration: 1s;
+}
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide {
   display: none;
   transition-property: margin, filter, opacity;
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
-.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slide.active,
-.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slide.inactive {
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide.active,
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide.inactive {
   display: block;
   position: absolute;
 }
-.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slide.inactive a {
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide.inactive {
+  opacity: 0.45;
+  filter: grayscale(0.15);
+}
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide.inactive a {
   display: none;
 }

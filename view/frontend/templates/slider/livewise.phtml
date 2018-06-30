@@ -2,8 +2,9 @@
 /** @var \Magestore\Bannerslider\Block\SliderItem $block */
 $styleSlide = $block->getSlider()->getStyleSlide();
 $slider = $block->getSlider();
-$htmlId   = $block->getFlexsliderHtmlId();
+$htmlId = $block->getFlexsliderHtmlId();
 $bannerCollection = $block->getBannerCollection();
+$repeat = count($bannerCollection) <= 2 ? 3 : 2;
 ?>
 <!-- LiveWise slider will go here -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
@@ -12,30 +13,44 @@ $bannerCollection = $block->getBannerCollection();
      data-mage-init='{"magestore/impress": {"url": "<?php echo $this->getUrl("bannerslider/index/impress") ?>", "slider_id": "<?php echo $block->getSlider()->getId() ?>"}}'>
     <div class="magestore-bannerslide-livewise">
         <div id="<?php echo $htmlId ?>"
-             class="bannerslide-livewise bannerslide-livewise-content-image <?php echo $htmlId ?>">
-            <?php foreach ($bannerCollection as $banner): ?>
-                <div class="slide">
-                    <a href="<?php echo $banner->getClickUrl() ?>"
-                       target="<?php echo $banner->getTargetValue() ?>"
-                       data-mage-init='{"magestore/clickbanner": {"url": "<?php echo $this->getUrl("bannerslider/index/click") ?>", "slider_id": "<?php echo $banner->getSliderId() ?>", "banner_id": "<?php echo $banner->getId() ?>" }}' >
-                        <img alt="<?php echo $banner->getImageAlt() ?>"
-                             src="<?php echo $block->getBannerImageUrl($banner) ?>"/>
-                    </a>
-                </div>
-            <?php endforeach ?>
+             class="bannerslide-livewise <?php echo $htmlId ?>">
+            <div class="slides-container">
+                <?php for ($i = 0; $i < $repeat; $i++) { ?>
+                <?php foreach ($bannerCollection as $banner): ?>
+                    <div class="slide"
+                         style="background: url(<?php echo $block->getBannerImageUrl($banner) ?>)">
+                        <div class="picture">
+                            <a href="<?php echo $banner->getClickUrl() ?>"
+                               target="<?php echo $banner->getTargetValue() ?>"
+                               data-mage-init='{"magestore/clickbanner": {"url": "<?php echo $this->getUrl("bannerslider/index/click") ?>", "slider_id": "<?php echo $banner->getSliderId() ?>", "banner_id": "<?php echo $banner->getId() ?>" }}' >
+                                <img alt="<?php echo $banner->getImageAlt() ?>"
+                                     src="<?php echo $block->getBannerImageUrl($banner) ?>"/>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach ?>
+                <?php } ?>
+            </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
  (function () {
      require(['jquery', 'magestore/livewise'], function($) {
-         var bannerdivid = "<?php echo $htmlId ?>";
-         var banner_width = 1280;
-         var banner_height = 640;
-         $('#' + bannerdivid).buildBannersliderLivewise({
-             width: banner_width,
-             height: banner_height
-         });
+         var _start_bannerslide = function() {
+             var bannerdiv = $('#'+'<?php echo $htmlId ?>');
+             var banner_width = bannerdiv.outerWidth();
+             var banner_height = banner_width * 0.5;
+             $(bannerdiv).css({
+                 width: ''+banner_width+'px',
+                 height: ''+banner_height+'px'
+             });
+             $('.slides-container', bannerdiv).buildBannersliderLivewise({
+                 width: banner_width,
+                 height: banner_height
+             });
+         }
+         _start_bannerslide();
      });
  })();
 </script>
