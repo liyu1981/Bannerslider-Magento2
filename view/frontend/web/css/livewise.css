@@ -1,10 +1,7 @@
 .magestore-bannerslider .magestore-bannerslide-livewise {
+  width: 100%;
   max-width: 100%;
-  margin-bottom: 60px;
-}
-.magestore-bannerslider .magestore-bannerslide-livewise .with-animate {
-  transition-property: margin, filter, opacity;
-  transition-duration: 1s;
+  margin-bottom: 40px;
 }
 .magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide {
   display: none;

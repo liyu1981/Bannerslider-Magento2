@@ -42,9 +42,10 @@ $repeat = count($bannerCollection) <= 2 ? 3 : 2;
          'magestore/livewise'
      ], function($, TimelineMax, TweenMax) {
          var _start_bannerslide = function() {
-             var bannerdiv = $('#'+'<?php echo $htmlId ?>');
-             var banner_width = bannerdiv.outerWidth();
+             var banner_width = $('.magestore-bannerslider-standard').outerWidth();
              var banner_height = banner_width * 0.5;
+             console.log('liyuhk', $('.magestore-bannerslider-standard').outerWidth());
+             var bannerdiv = $('#'+'<?php echo $htmlId ?>');
              $(bannerdiv).css({
                  width: ''+banner_width+'px',
                  height: ''+banner_height+'px'
@@ -55,6 +56,11 @@ $repeat = count($bannerCollection) <= 2 ? 3 : 2;
              });
          }
          _start_bannerslide();
+         $(window).on('orientationchange', function(event) {
+             setTimeout(function() {
+                 _start_bannerslide();
+             }, 100);
+         });
      });
  })();
 </script>

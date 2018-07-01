@@ -43,7 +43,7 @@ define([
                 //.on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(e) {
                 .one('transitionend', function(e) {
                     if (index == self.slideCurrent) {
-                        console.log('liyuhk: time for animation!', e);
+                        //console.log('liyuhk: time for animation!', e);
                     }
                     //$(this).off(e);
                 });
@@ -94,26 +94,21 @@ define([
 
     HorizSlider.prototype.start = function() {
         var self = this;
-        this._timeout_handle = setTimeout(function() {
+        this.timeout_handle = setTimeout(function() {
             self.rotate();
             self.start();
         }, this.options.transistion);
         return this;
     };
 
-    HorizSlider.prototype.shutdown = function() {
-        if (this._timeout_handle) {
-            closeTimeout(this._timeout_handle);
-            this._timeout_handle = null;
-        }
-    }
-
 
     $.fn.buildBannersliderLivewise = function(options) {
-        if (this._livewise_hs) {
-            this._livewise_hs.shutdown();
-            this._livewise_hs = null;
+        var prev_hs = $(this).data('livewise_hs');
+        if (prev_hs) {
+            clearTimeout(prev_hs.timeout_handle);
+            $(this).data('livewise_hs', null);
         }
+
         options.width = options.width || 1280;
         options.height = options.height || 640;
         options.transistion = options.transistion || 4500;
@@ -121,7 +116,8 @@ define([
         hs.init();
         hs.start();
         //window.hs = hs;
-        this._livewise_hs = hs;
+
+        $(this).data('livewise_hs', hs);
         return hs;
     };
 });
