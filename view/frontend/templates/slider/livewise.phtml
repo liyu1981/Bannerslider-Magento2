@@ -7,7 +7,6 @@ $bannerCollection = $block->getBannerCollection();
 $repeat = count($bannerCollection) <= 2 ? 3 : 2;
 ?>
 <!-- LiveWise slider will go here -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('Magestore_Bannerslider::css/livewise.css')?>">
 <div class="magestore-bannerslider-standard"
      data-mage-init='{"magestore/impress": {"url": "<?php echo $this->getUrl("bannerslider/index/impress") ?>", "slider_id": "<?php echo $block->getSlider()->getId() ?>"}}'>
@@ -36,7 +35,12 @@ $repeat = count($bannerCollection) <= 2 ? 3 : 2;
 </div>
 <script type="text/javascript">
  (function () {
-     require(['jquery', 'magestore/livewise'], function($) {
+     require([
+         'jquery',
+         'GSAP/TimelineMax',
+         'GSAP/TweenMax',
+         'magestore/livewise'
+     ], function($, TimelineMax, TweenMax) {
          var _start_bannerslide = function() {
              var bannerdiv = $('#'+'<?php echo $htmlId ?>');
              var banner_width = bannerdiv.outerWidth();
