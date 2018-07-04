@@ -8,6 +8,19 @@
   transition-property: margin, filter, opacity;
   transition-duration: 0.4s;
 }
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide .GSAP-canvas {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide .GSAP-canvas .gsap-canvas-to-restore {
+  display: none;
+}
+.magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide.active .GSAP-canvas {
+  display: block;
+}
 .magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide.active,
 .magestore-bannerslider .magestore-bannerslide-livewise .bannerslide-livewise .slides-container .slide.inactive {
   display: block;

@@ -313,4 +313,14 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     {
         return 'magestore-bannerslider-flex-slider-'.$this->getSlider()->getId().$this->_stdlibDateTime->gmtTimestamp();
     }
+
+    /**
+     * get livewise html id.
+     * 
+     * @return string
+     */
+    public function getLivewiseHtmlId()
+    {
+        return 'magestore-bannerslider-livewise-'.$this->getSlider()->getId().$this->_stdlibDateTime->gmtTimestamp();
+    }
 }

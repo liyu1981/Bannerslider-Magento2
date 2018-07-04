@@ -320,6 +320,18 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => true, 'default' => ''],
             'Banner caption'
+        )->addColumn(
+            'gsap_animation_dom',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            null,
+            ['nullable' => true, 'default' => null],
+            'GSAP Animation DOM'
+        )->addColumn(
+            'gsap_animation_js',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            null,
+            ['nullable' => true, 'default' => null],
+            'GSAP Animation JS'
         )->addIndex(
             $installer->getIdxName('magestore_bannerslider_banner', ['slider_id']),
             ['slider_id']

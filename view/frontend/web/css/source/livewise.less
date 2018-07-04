@@ -1,32 +1,49 @@
 .magestore-bannerslider {
+  .magestore-bannerslide-livewise {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 40px;
 
-    .magestore-bannerslide-livewise {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 40px;
+    .bannerslide-livewise {
+      .slides-container {
+        .slide {
+          display: none;
+          transition-property: margin, filter, opacity;
+          transition-duration: 0.4s;
 
-        .bannerslide-livewise {
-            .slides-container {
-                .slide {
-                    display: none;
-                    transition-property: margin, filter, opacity;
-                    transition-duration: 0.4s;
-                }
+          .GSAP-canvas {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
 
-                .slide.active, .slide.inactive {
-                    display: block;
-                    position: absolute;
-                }
-
-                .slide.inactive {
-                    opacity: 0.45;
-                    filter: grayscale(0.15);
-                    a {
-                        display: none;
-                    }
-                }
+            .gsap-canvas-to-restore {
+              display: none;
             }
+          }
         }
-    }
-}
 
+        .slide.active {
+          .GSAP-canvas {
+            display: block;
+          }
+        }
+
+        .slide.active,
+        .slide.inactive {
+          display: block;
+          position: absolute;
+        }
+
+        .slide.inactive {
+          opacity: 0.45;
+          filter: grayscale(0.15);
+          a {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

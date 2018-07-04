@@ -12,11 +12,11 @@ var config = {
         'magestore/evolutionslider': 'Magestore_Bannerslider/js/jquery/slider/jquery-slider-min',
         'magestore/popup': 'Magestore_Bannerslider/js/jquery.bpopup.min',
 
-        //'GSAP/TimelineLite': 'Magestore_Bannerslider/js/GSAP-2.0.1/TimelineLite.min',
-        'GSAP/TimelineMax': 'Magestore_Bannerslider/js/GSAP-2.0.1/TimelineMax.min',
-        //'GSAP/TweenLite': 'Magestore_Bannerslider/js/GSAP-2.0.1/TweenLite.min',
-        'GSAP/TweenMax': 'Magestore_Bannerslider/js/GSAP-2.0.1/TweenMax.min',
-        //'GSAP/jQuery': 'Magestore_Bannerslider/js/GSAP-2.0.1/jquery.gsap.min',
+        'GSAP/TimelineMax': 'Magestore_Bannerslider/js/GSAP/core-2.0.1/TimelineMax.min',
+        'GSAP/TweenMax': 'Magestore_Bannerslider/js/GSAP/core-2.0.1/TweenMax.min',
+        'GSAP/ClubSplitText': 'Magestore_Bannerslider/js/GSAP/club/SplitText',
+        'GSAP/UtilRandomColor': 'Magestore_Bannerslider/js/GSAP/util/randomColor-0.5.2/randomColor.min',
+        'livewise/GSAP': 'Magestore_Bannerslider/js/GSAP/gsap',
     },
     shim: {
         'magestore/livewise': {
@@ -30,6 +30,12 @@ var config = {
         },
         'magestore/zebra-tooltips': {
             deps: ['jquery']
+        },
+        'GSAP/TimelineMax': {
+            deps: ['GSAP/TweenMax']
+        },
+        'GSAP/ClubSplitText': {
+            deps: ['GSAP/TweenMax', 'GSAP/TimelineMax']
         },
     }
 };

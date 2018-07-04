@@ -31,7 +31,9 @@ use Magestore\Bannerslider\Model\Status;
  * @module   Bannerslider
  * @author   Magestore Developer
  */
-class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Banner 
+    extends \Magento\Backend\Block\Widget\Form\Generic 
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Framework\DataObjectFactory
@@ -66,14 +68,14 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
     /**
      * constructor.
      *
-     * @param \Magento\Backend\Block\Template\Context                        $context
-     * @param \Magento\Framework\Registry                                    $registry
-     * @param \Magento\Framework\Data\FormFactory                            $formFactory
-     * @param \Magento\Framework\DataObjectFactory                               $objectFactory
-     * @param \Magestore\Bannerslider\Model\Banner                           $banner
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\DataObjectFactory $objectFactory
+     * @param \Magestore\Bannerslider\Model\Banner $banner
      * @param \Magestore\Bannerslider\Model\ResourceModel\Value\CollectionFactory $valueCollectionFactory
-     * @param \Magestore\Bannerslider\Model\SliderFactory                    $sliderFactory
-     * @param array                                                          $data
+     * @param \Magestore\Bannerslider\Model\SliderFactory $sliderFactory
+     * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -224,7 +226,6 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         );
 
         $wysiwygConfig = $this->_wysiwygConfig->getConfig();
-
         $elements['caption'] = $fieldset->addField(
             'caption',
             'editor',
@@ -260,21 +261,23 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
         $dateFormat = 'M/d/yyyy';
         $timeFormat = 'h:mm a';
         if($dataObj->hasData('start_time')) {
-
-            $datetime = $this->dateTime->date($dataObj->getData('start_time'), null, $this->_localeDate->getConfigTimezone());
-//            $datetime = new \DateTime($dataObj->getData('start_time'));
-
+            $datetime = $this->dateTime->date(
+                $dataObj->getData('start_time'), 
+                null, 
+                $this->_localeDate->getConfigTimezone()
+            );
             $dataObj->setData('start_time',$datetime);
-
         }
 
         if($dataObj->hasData('end_time')) {
-            $datetime = $this->dateTime->date($dataObj->getData('end_time'), null, $this->_localeDate->getConfigTimezone());
-//            $datetime = new \DateTime($dataObj->getData('end_time'));
+            $datetime = $this->dateTime->date(
+                $dataObj->getData('end_time'), 
+                null, 
+                $this->_localeDate->getConfigTimezone()
+            );
             $dataObj->setData('end_time', $datetime);
         }
 
-        $style = 'color: #000;background-color: #fff; font-weight: bold; font-size: 13px;';
         $elements['start_time'] = $fieldset->addField(
             'start_time',
             'date',
@@ -284,7 +287,6 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'title' => __('Starting time'),
                 'required' => true,
                 'readonly' => true,
-                'style' => $style,
                 'class' => 'required-entry',
                 'date_format' => $dateFormat,
                 'time_format' => $timeFormat,
@@ -301,7 +303,6 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'title' => __('Ending time'),
                 'required' => true,
                 'readonly' => true,
-                'style' => $style,
                 'class' => 'required-entry',
                 'date_format' => $dateFormat,
                 'time_format' => $timeFormat,
@@ -332,6 +333,26 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
             ]
         );
 
+        $elements['gsap_animation_dom'] = $fieldset->addField(
+            'gsap_animation_dom',
+            'editor',
+            [
+                'title' => __('GSAP Animation DOM'),
+                'label' => __('GSAP Animation DOM'),
+                'name' => 'gsap_animation_dom'
+            ]
+        );
+
+        $elements['gsap_animation_js'] = $fieldset->addField(
+            'gsap_animation_js',
+            'editor',
+            [
+                'title' => __('GSAP Animation JS'),
+                'label' => __('GSAP Animation JS'),
+                'name' => 'gsap_animation_js'
+            ]
+        );
+
         foreach ($attributesInStore as $attribute) {
             if (isset($elements[$attribute])) {
                 $elements[$attribute]->setStoreViewId($storeViewId);
@@ -357,7 +378,8 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
     public function getPageTitle()
     {
         return $this->getBanner()->getId()
-            ? __("Edit Banner '%1'", $this->escapeHtml($this->getBanner()->getName())) : __('New Banner');
+            ? __("Edit Banner '%1'", $this->escapeHtml($this->getBanner()->getName()))
+            : __('New Banner');
     }
 
     /**

@@ -2,65 +2,100 @@
 /** @var \Magestore\Bannerslider\Block\SliderItem $block */
 $styleSlide = $block->getSlider()->getStyleSlide();
 $slider = $block->getSlider();
-$htmlId = $block->getFlexsliderHtmlId();
+$htmlId = $block->getLivewiseHtmlId();
 $bannerCollection = $block->getBannerCollection();
+
+// livewise slider needs redundant slides for the effect of circular 
+// smooth sliding. We need at least 6 slides for slider, so when 
+// collection == 2, repeat 3 times for 6, otherwise repeat 2 times 
+// will be enough
 $repeat = count($bannerCollection) <= 2 ? 3 : 2;
+
+$gsap_animation_fn_prefix = '_lwgsap_'.str_replace('-', '', $htmlId).'_';
+$gsap_id_generator = function($repeat, $index) { return $repeat.$index; };
 ?>
 <!-- LiveWise slider will go here -->
-<link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('Magestore_Bannerslider::css/livewise.css')?>">
+<link rel="stylesheet" type="text/css" 
+      href="<?php echo $block->getViewFileUrl('Magestore_Bannerslider::css/livewise.css')?>">
 <div class="magestore-bannerslider-standard"
-     data-mage-init='{"magestore/impress": {"url": "<?php echo $this->getUrl("bannerslider/index/impress") ?>", "slider_id": "<?php echo $block->getSlider()->getId() ?>"}}'>
+     data-mage-init='{
+         "magestore/impress": {
+             "url": "<?php echo $this->getUrl("bannerslider/index/impress") ?>", 
+             "slider_id": "<?php echo $block->getSlider()->getId() ?>"
+         }
+     }'>
     <div class="magestore-bannerslide-livewise">
         <div id="<?php echo $htmlId ?>"
              class="bannerslide-livewise <?php echo $htmlId ?>">
             <div class="slides-container">
-                <?php for ($i = 0; $i < $repeat; $i++) { ?>
-                <?php foreach ($bannerCollection as $banner): ?>
-                    <div class="slide"
-                         style="background: url(<?php echo $block->getBannerImageUrl($banner) ?>)">
-                        <div class="picture">
-                            <a href="<?php echo $banner->getClickUrl() ?>"
-                               target="<?php echo $banner->getTargetValue() ?>"
-                               data-mage-init='{"magestore/clickbanner": {"url": "<?php echo $this->getUrl("bannerslider/index/click") ?>", "slider_id": "<?php echo $banner->getSliderId() ?>", "banner_id": "<?php echo $banner->getId() ?>" }}' >
-                                <img alt="<?php echo $banner->getImageAlt() ?>"
-                                     src="<?php echo $block->getBannerImageUrl($banner) ?>"/>
-                            </a>
+                <?php for ($r = 0; $r < $repeat; $r++) { ?>
+                    <?php foreach ($bannerCollection as $index => $banner): ?>
+                        <div class="slide"
+                             style="background: url(<?php echo $block->getBannerImageUrl($banner) ?>)">
+                            <?php $gsapid = $gsap_id_generator($r, $index); ?>
+                            <div class="GSAP-canvas"
+                                 data-fn="<?php echo $gsap_animation_fn_prefix.$gsapid ?>" >
+                                 <?php if ($banner->getGsapAnimationDom()) { ?>
+                                    <div id="canvas-container">
+                                        <?php echo $banner->getGsapAnimationDom(); ?>
+                                    </div>
+                                 <?php } ?>
+                                 <?php if ($banner->getGsapAnimationJs()) { ?>
+                                 <script>
+                                 window['<?php echo $gsap_animation_fn_prefix.$gsapid ?>'] = 
+                                    (<?php echo $banner->getGsapAnimationJs() ?>);
+                                 </script>
+                                 <?php } ?>
+                            </div>
+                            <div class="picture">
+                                <a href="<?php echo $banner->getClickUrl() ?>"
+                                   target="<?php echo $banner->getTargetValue() ?>"
+                                   data-mage-init='{
+                                       "magestore/clickbanner": {
+                                           "url": "<?php echo $this->getUrl("bannerslider/index/click") ?>", 
+                                           "slider_id": "<?php echo $banner->getSliderId() ?>", 
+                                           "banner_id": "<?php echo $banner->getId() ?>" 
+                                       }
+                                   }' >
+                                    <img alt="<?php echo $banner->getImageAlt() ?>"
+                                         src="<?php echo $block->getBannerImageUrl($banner) ?>"/>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach ?>
+                    <?php endforeach ?>
                 <?php } ?>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
- (function () {
-     require([
-         'jquery',
-         'GSAP/TimelineMax',
-         'GSAP/TweenMax',
-         'magestore/livewise'
-     ], function($, TimelineMax, TweenMax) {
-         var _start_bannerslide = function() {
-             var banner_width = $('.magestore-bannerslider-standard').outerWidth();
-             var banner_height = banner_width * 0.5;
-             console.log('liyuhk', $('.magestore-bannerslider-standard').outerWidth());
-             var bannerdiv = $('#'+'<?php echo $htmlId ?>');
-             $(bannerdiv).css({
-                 width: ''+banner_width+'px',
-                 height: ''+banner_height+'px'
-             });
-             $('.slides-container', bannerdiv).buildBannersliderLivewise({
-                 width: banner_width,
-                 height: banner_height
-             });
-         }
-         _start_bannerslide();
-         $(window).on('orientationchange', function(event) {
-             setTimeout(function() {
-                 _start_bannerslide();
-             }, 100);
-         });
-     });
- })();
+require([
+    'jquery',
+    'magestore/livewise'
+], function($) {
+    var _start_bannerslide = function() {
+        var banner_width = $('.magestore-bannerslider-standard').outerWidth();
+        var banner_height = banner_width * 0.5;
+        var bannerdiv = $('#'+'<?php echo $htmlId ?>');
+        $(bannerdiv).css({
+            width: ''+banner_width+'px',
+            height: ''+banner_height+'px'
+        });
+        $('.slides-container', bannerdiv).buildBannersliderLivewise({
+            width: banner_width,
+            height: banner_height,
+        });
+    }
+    
+    _start_bannerslide();
+
+    // pay attention to orientationchange for better mobile experience
+    $(window).on('orientationchange', function(event) {
+        setTimeout(function() {
+            _start_bannerslide();
+        }, 100); 
+        // wait for 100 as in practice the orientationchagne arrives 
+        // before the width actually changes
+    });
+});
 </script>

@@ -94,14 +94,14 @@ class Banner extends \Magento\Framework\Model\AbstractModel
     /**
      * [__construct description].
      *
-     * @param \Magento\Framework\Model\Context                                $context
-     * @param \Magento\Framework\Registry                                     $registry
-     * @param \Magestore\Bannerslider\Model\ResourceModel\Banner                   $resource
-     * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\Collection        $resourceCollection
-     * @param \Magestore\Bannerslider\Model\BannerFactory                     $bannerFactory
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magestore\Bannerslider\Model\ResourceModel\Banner $resource
+     * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\Collection $resourceCollection
+     * @param \Magestore\Bannerslider\Model\BannerFactory $bannerFactory
      * @param \Magestore\Bannerslider\Model\ResourceModel\Slider\CollectionFactory $sliderCollectionFactory
-     * @param \Magestore\Bannerslider\Model\ResourceModel\Value\CollectionFactory  $valueCollectionFactory
-     * @param \Magento\Store\Model\StoreManagerInterface                      $storeManager
+     * @param \Magestore\Bannerslider\Model\ResourceModel\Value\CollectionFactory $valueCollectionFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,

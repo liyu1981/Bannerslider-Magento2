@@ -20,6 +20,7 @@
  * @license     http://www.magestore.com/license-agreement.html
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Magestore_Bannerslider" setup_version="1.7.1"/>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Magestore_Bannerslider" setup_version="1.8.1"/>
 </config>
