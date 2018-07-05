@@ -1,19 +1,19 @@
-define(["jquery", "livewise/GSAP"], function($, GSAP) {
+define(['jquery', 'livewise/GSAP'], function($, GSAP) {
   var SLIDE_GAP = 2;
-  var DATA_GSAPANI_KEY = "gsapani";
-  var SELECTOR_GSAP_CANVAS = ".GSAP-canvas";
+  var DATA_GSAPANI_KEY = 'gsapani';
+  var SELECTOR_GSAP_CANVAS = '.GSAP-canvas';
 
   function GSAPAnimation($canvas, $, GSAP) {
     this.$ = $;
     this.GSAP = GSAP;
     this.$canvas = $canvas;
-    this.$canvasContentClone = $("#canvas-container", $canvas).clone();
+    this.$canvasContentClone = $('#canvas-container', $canvas).clone();
 
-    var fn = $canvas.data("fn");
+    var fn = $canvas.data('fn');
     this.annimationFn = window[fn];
 
     this.timeline = new GSAP.TimelineMax().eventCallback(
-      "onComplete",
+      'onComplete',
       this.onTimelineComplete.bind(this)
     );
   }
@@ -27,9 +27,9 @@ define(["jquery", "livewise/GSAP"], function($, GSAP) {
     return this;
   };
   GSAPAnimation.prototype.prepareRestore = function() {
-    $("#canvas-container", this.$canvas).addClass("gsap-canvas-to-go");
+    $('#canvas-container', this.$canvas).addClass('gsap-canvas-to-go');
     this.$canvas.prepend(
-      this.$canvasContentClone.addClass("gsap-canvas-to-restore")
+      this.$canvasContentClone.addClass('gsap-canvas-to-restore')
     );
     return this;
   };
@@ -50,14 +50,14 @@ define(["jquery", "livewise/GSAP"], function($, GSAP) {
 
   function restoreGSAPCanvas($el) {
     var $canvas = $(SELECTOR_GSAP_CANVAS, $el);
-    $(".gsap-canvas-to-go", $canvas).remove();
-    $(".gsap-canvas-to-restore", $canvas).removeClass("gsap-canvas-to-restore");
+    $('.gsap-canvas-to-go', $canvas).remove();
+    $('.gsap-canvas-to-restore', $canvas).removeClass('gsap-canvas-to-restore');
   }
 
   function HorizSlider(slider_container_el, options) {
     this.el = slider_container_el;
     this.options = options;
-    this.slideMax = $(".slide", this.el).length;
+    this.slideMax = $('.slide', this.el).length;
     this.slideCurrent = 1;
     this.distanceMap = {};
     this.advanceCurrent();
@@ -69,9 +69,9 @@ define(["jquery", "livewise/GSAP"], function($, GSAP) {
   };
 
   HorizSlider.prototype.formatSlides = function() {
-    var all_slides = $(".slide", this.el)
-      .removeClass("active")
-      .removeClass("inactive")
+    var all_slides = $('.slide', this.el)
+      .removeClass('active')
+      .removeClass('inactive')
       .toArray();
     var self = this;
     all_slides.forEach(function(slide, index) {
@@ -79,26 +79,30 @@ define(["jquery", "livewise/GSAP"], function($, GSAP) {
       var marginLeft = dist * (self.options.width + SLIDE_GAP);
       $(slide)
         .css({
-          "background-size":
-            "" + self.options.width + "px " + self.options.height + "px",
-          width: "" + self.options.width + "px",
-          height: "" + self.options.height + "px",
-          "margin-left": "" + marginLeft + "px"
+          'background-size':
+            '' + self.options.width + 'px ' + self.options.height + 'px',
+          width: '' + self.options.width + 'px',
+          height: '' + self.options.height + 'px',
+          'margin-left': '' + marginLeft + 'px'
         })
         .addClass(
           index == self.slideCurrent
-            ? "active"
+            ? 'active'
             : dist == -2 || dist == -1 || dist == 1 || dist == 2
-              ? "inactive"
-              : ""
+              ? 'inactive'
+              : ''
         )
         //.on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function(e) {
-        .one("transitionend", function(e) {
+        .one('transitionend', function(e) {
+          // disable GSAP for mobile
+          if (self.options.disableGSAP) {
+            $(SELECTOR_GSAP_CANVAS, e.target).hide();
+            return;
+          }
           var el = $(e.target);
-          if (el.hasClass("active")) {
+          if (el.hasClass('active')) {
             executeGSAPAnimation(el);
-          } else if (el.hasClass("inactive")) {
-            console.log('liyuhk', 'restore now', el);
+          } else if (el.hasClass('inactive')) {
             restoreGSAPCanvas(el);
           }
         });
@@ -141,10 +145,10 @@ define(["jquery", "livewise/GSAP"], function($, GSAP) {
   };
 
   $.fn.buildBannersliderLivewise = function(options) {
-    var prev_hs = $(this).data("livewise_hs");
+    var prev_hs = $(this).data('livewise_hs');
     if (prev_hs) {
       clearTimeout(prev_hs.timeout_handle);
-      $(this).data("livewise_hs", null);
+      $(this).data('livewise_hs', null);
     }
 
     options.width = options.width || 1280;
@@ -152,10 +156,10 @@ define(["jquery", "livewise/GSAP"], function($, GSAP) {
     options.transistion = options.transistion || 9000;
     var hs = new HorizSlider(this, options);
     hs.init();
-    //hs.start();
-    window.hs = hs;
+    hs.start();
+    //window.hs = hs;
 
-    $(this).data("livewise_hs", hs);
+    $(this).data('livewise_hs', hs);
     return hs;
   };
 });

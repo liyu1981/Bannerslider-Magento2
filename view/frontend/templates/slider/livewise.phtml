@@ -84,6 +84,7 @@ require([
         $('.slides-container', bannerdiv).buildBannersliderLivewise({
             width: banner_width,
             height: banner_height,
+            disableGSAP: (banner_width < 1280) ? true : false // disable annimation in mobile 
         });
     }
     
