@@ -1,0 +1,31 @@
+<?php
+/** @var \Magestore\Bannerslider\Block\SliderItem $block */
+$htmlId = $block->getLivewiseHtmlId();
+$bannerCollection = $block->getBannerCollection();
+?>
+<!-- LiveWise global promotion slider will go here -->
+<div class="magestore-bannerslider-standard">
+    <div class="magestore-bannerslide-livewise-global-promotion">
+        <div id="<?php echo $htmlId ?>"
+             class="bannerslide-livewise <?php echo $htmlId ?>">
+            <div class="slides-container">
+                <?php foreach ($bannerCollection as $index => $banner): ?>
+                    <div class="slide">
+                        <a href="<?php echo $banner->getClickUrl() ?>"
+                            target="<?php echo $banner->getTargetValue() ?>"
+                            data-mage-init='{
+                                "magestore/clickbanner": {
+                                    "url": "<?php echo $this->getUrl("bannerslider/index/click") ?>", 
+                                    "slider_id": "<?php echo $banner->getSliderId() ?>", 
+                                    "banner_id": "<?php echo $banner->getId() ?>" 
+                                }
+                            }' >
+                            <img alt="<?php echo $banner->getImageAlt() ?>"
+                                 src="<?php echo $block->getBannerImageUrl($banner) ?>"/>
+                        </a>
+                    </div>
+                <?php endforeach ?>
+            </div>
+        </div>
+    </div>
+</div>

@@ -54,6 +54,9 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
      */
     protected $_sliderCollectionFactory;
 
+    protected $_rand;
+
+
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
@@ -73,19 +76,21 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
         parent::__construct($context, $data);
         $this->_coreRegistry = $coreRegistry;
         $this->_sliderCollectionFactory = $sliderCollectionFactory;
+        $this->_rand = random_int(2000, 3000);
     }
 
     /**
-     * @return
+     * @return string
      */
     protected function _toHtml()
     {
         $store = $this->_storeManager->getStore()->getId();
 
         if ($this->_scopeConfig->getValue(
-            SliderModel::XML_CONFIG_BANNERSLIDER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
-        )
-        ) {
+                SliderModel::XML_CONFIG_BANNERSLIDER, 
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            )) {
             return parent::_toHtml();
         }
 
@@ -95,9 +100,9 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
     /**
      * add child block slider.
      *
-     * @param \Magestore\Bannerslider\Model\ResourceModel\Slider\Collection $sliderCollection [description]
+     * @param \Magestore\Bannerslider\Model\ResourceModel\Slider\Collection $sliderCollection
      *
-     * @return \Magestore\Bannerslider\Block\Bannerslider [description]
+     * @return \Magestore\Bannerslider\Block\Bannerslider
      */
     public function appendChildBlockSliders(
         \Magestore\Bannerslider\Model\ResourceModel\Slider\Collection $sliderCollection

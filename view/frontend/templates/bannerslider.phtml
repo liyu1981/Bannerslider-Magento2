@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magestore
  *
@@ -20,7 +19,8 @@
  * @license     http://www.magestore.com/license-agreement.html
  */
 
+$child_html = trim($block->getChildHtml());
 ?>
-<div class="magestore-bannerslider">
-    <?php echo $block->getChildHtml(); ?>
-</div>
+<?php if ($child_html !== ''): ?>
+<div class="magestore-bannerslider"><?php echo $child_html; ?></div>
+<?php endif; ?>

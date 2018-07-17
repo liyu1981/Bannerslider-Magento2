@@ -61,22 +61,20 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      */
     protected $_stdTimezone;
 
-    /**
-     * _contruct
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init('Magestore\Bannerslider\Model\Slider', 'Magestore\Bannerslider\Model\ResourceModel\Slider');
+    protected function _construct() {
+        $this->_init(
+            'Magestore\Bannerslider\Model\Slider', 
+            'Magestore\Bannerslider\Model\ResourceModel\Slider'
+        );
     }
 
     /**
-     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface    $entityFactory
-     * @param \Psr\Log\LoggerInterface                                     $logger
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Psr\Log\LoggerInterface $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Framework\Event\ManagerInterface                    $eventManager
-     * @param \Zend_Db_Adapter_Abstract                                    $connection
-     * @param \Magento\Framework\Model\ResourceModel\Db\AbstractDb              $resource
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
@@ -91,7 +89,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_storeManager = $storeManager;
         $this->_stdTimezone = $stdTimezone;
-
     }
 
 }

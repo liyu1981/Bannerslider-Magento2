@@ -63,6 +63,8 @@ class SliderItem extends \Magento\Framework\View\Element\Template
      * tempalte for livewise slider.
      */
     const STYLESLIDE_LIVEWISE = 'Magestore_Bannerslider::slider/livewise.phtml';
+    const STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION = 
+        'Magestore_Bannerslider::slider/livewise_global_promotion.phtml';
 
     /**
      * Date conversion model.
@@ -118,6 +120,8 @@ class SliderItem extends \Magento\Framework\View\Element\Template
      */
     protected $_stdTimezone;
 
+    protected $_rand;
+
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory
@@ -147,10 +151,11 @@ class SliderItem extends \Magento\Framework\View\Element\Template
         $this->_bannerCollectionFactory = $bannerCollectionFactory;
         $this->_scopeConfig = $context->getScopeConfig();
         $this->_stdTimezone = $_stdTimezone;
+        $this->_rand = random_int(0, 1000);
     }
 
     /**
-     * @return
+     * @return string
      */
     protected function _toHtml()
     {
@@ -180,18 +185,15 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     public function setSliderId($sliderId)
     {
         $this->_sliderId = $sliderId;
-
         $slider = $this->_sliderFactory->create()->load($this->_sliderId);
         if ($slider->getId()) {
             $this->setSlider($slider);
-
             if ($slider->getStyleContent() == SliderModel::STYLE_CONTENT_NO) {
                 $this->setTemplate(self::STYLESLIDE_CUSTOM_TEMPLATE);
             } else {
                 $this->setStyleSlideTemplate($slider->getStyleSlide());
             }
         }
-
         return $this;
     }
 
@@ -205,31 +207,36 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     public function setStyleSlideTemplate($styleSlideId)
     {
         switch ($styleSlideId) {
-        //Evolution slide
-        case SliderModel::STYLESLIDE_EVOLUTION_ONE:
-        case SliderModel::STYLESLIDE_EVOLUTION_TWO:
-        case SliderModel::STYLESLIDE_EVOLUTION_THREE:
-        case SliderModel::STYLESLIDE_EVOLUTION_FOUR:
-            $this->setTemplate(self::STYLESLIDE_EVOLUTION_TEMPLATE);
-            break;
+            // Evolution slide
+            case SliderModel::STYLESLIDE_EVOLUTION_ONE:
+            case SliderModel::STYLESLIDE_EVOLUTION_TWO:
+            case SliderModel::STYLESLIDE_EVOLUTION_THREE:
+            case SliderModel::STYLESLIDE_EVOLUTION_FOUR:
+                $this->setTemplate(self::STYLESLIDE_EVOLUTION_TEMPLATE);
+                break;
 
-        case SliderModel::STYLESLIDE_POPUP:
-            $this->setTemplate(self::STYLESLIDE_POPUP_TEMPLATE);
-            break;
+            case SliderModel::STYLESLIDE_POPUP:
+                $this->setTemplate(self::STYLESLIDE_POPUP_TEMPLATE);
+                break;
 
-        //Note all page
-        case SliderModel::STYLESLIDE_SPECIAL_NOTE:
-            $this->setTemplate(self::STYLESLIDE_SPECIAL_NOTE_TEMPLATE);
-            break;
+            // Note all page
+            case SliderModel::STYLESLIDE_SPECIAL_NOTE:
+                $this->setTemplate(self::STYLESLIDE_SPECIAL_NOTE_TEMPLATE);
+                break;
 
-        case SliderModel::STYLESLIDE_LIVEWISE:
-            $this->setTemplate(self::STYLESLIDE_LIVEWISE);
-            break;
+            // LiveWise Sliders
+            case SliderModel::STYLESLIDE_LIVEWISE:
+                $this->setTemplate(self::STYLESLIDE_LIVEWISE);
+                break;
 
-        // Flex slide
-        default:
-            $this->setTemplate(self::STYLESLIDE_FLEXSLIDER_TEMPLATE);
-            break;
+            case SliderModel::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION:
+                $this->setTemplate(self::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION);
+                break;
+
+            // Flex slide
+            default:
+                $this->setTemplate(self::STYLESLIDE_FLEXSLIDER_TEMPLATE);
+                break;
         }
     }
 
@@ -246,7 +253,8 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     public function getBannerCollection()
     {
         $sliderId = $this->_slider->getId();
-        return $this->_bannerCollectionFactory->getBannerCollection($sliderId);
+        $collection = $this->_bannerCollectionFactory->getBannerCollection($sliderId);
+        return $collection;
     }
 
     /**
@@ -305,22 +313,26 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * get flexslider html id.
-     *
      * @return string
      */
     public function getFlexsliderHtmlId()
     {
-        return 'magestore-bannerslider-flex-slider-'.$this->getSlider()->getId().$this->_stdlibDateTime->gmtTimestamp();
+        return sprintf(
+            'magestore-bannerslider-flex-slider-%s%s',
+            $this->getSlider()->getId(),
+            $this->_stdlibDateTime->gmtTimestamp()
+        );
     }
 
     /**
-     * get livewise html id.
-     * 
      * @return string
      */
     public function getLivewiseHtmlId()
     {
-        return 'magestore-bannerslider-livewise-'.$this->getSlider()->getId().$this->_stdlibDateTime->gmtTimestamp();
+        return sprintf(
+            'magestore-bannerslider-livewise-%s%s',
+            $this->getSlider()->getId(),
+            $this->_stdlibDateTime->gmtTimestamp()
+        );
     }
 }

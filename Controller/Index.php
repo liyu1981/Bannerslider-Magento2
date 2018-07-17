@@ -129,10 +129,8 @@ abstract class Index extends \Magento\Framework\App\Action\Action
     protected function getUserCode($id)
     {
         $ipAddress = $this->_objectManager->create('Magento\Framework\HTTP\PhpEnvironment\Request')->getClientIp(true);
-//        var_dump($ipAddress);die('ssssssss');
         $cookiefrontend = $this->getCookieManager()->getCookie('frontend');
         $usercode = $ipAddress.$cookiefrontend.$id;
-
         return md5($usercode);
     }
 }

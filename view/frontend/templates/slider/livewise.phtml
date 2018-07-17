@@ -1,7 +1,5 @@
 <?php
 /** @var \Magestore\Bannerslider\Block\SliderItem $block */
-$styleSlide = $block->getSlider()->getStyleSlide();
-$slider = $block->getSlider();
 $htmlId = $block->getLivewiseHtmlId();
 $bannerCollection = $block->getBannerCollection();
 
@@ -30,6 +28,7 @@ $gsap_id_generator = function($repeat, $index) { return $repeat.$index; };
             <div class="slides-container">
                 <?php for ($r = 0; $r < $repeat; $r++) { ?>
                     <?php foreach ($bannerCollection as $index => $banner): ?>
+                        <!-- <?php echo $banner->getImage(); ?>-->
                         <div class="slide"
                              style="background: url(<?php echo $block->getBannerImageUrl($banner) ?>)">
                             <?php $gsapid = $gsap_id_generator($r, $index); ?>

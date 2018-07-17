@@ -183,7 +183,9 @@ class Form
                 'label' => __('Select Slider Mode'),
                 'name' => 'style_slide',
                 'values' => $this->_bannersliderHelper->getStyleSlider(),
-                'note' => '<a data-preview-url="' . $previewUrl . '" href="' . $previewUrl . '" target="_blank" id="style-slide-view">Preview</a>',
+                'note' => '<a data-preview-url="'.$previewUrl.'" '.
+                             'href="'.$previewUrl.'" '.
+                             'target="_blank" id="style-slide-view">Preview</a>',
             ]
         );
 
@@ -307,7 +309,7 @@ class Form
                 'label' => __('Position'),
                 'title' => __('Position'),
                 'values' => $this->_bannersliderHelper->getBlockIdsToOptionsArray(),
-                'note' => '<a title="" data-position-image=\'' . json_encode($positionImage) . '\' data-tooltip-image="">Preview</a>',
+                'note' => '<a data-position-image="'.json_encode($positionImage).'">Preview</a>',
             ]
         );
 
@@ -319,7 +321,7 @@ class Form
                 'label' => __('Position'),
                 'title' => __('Position'),
                 'values' => $this->_bannersliderHelper->getBlockIdsToOptionsArray(),
-                'note' => '<a title="" data-position-image=\'' . json_encode($positionImage) . '\' data-tooltip-image="">Preview</a>',
+                'note' => '<a data-position-image="'.json_encode($positionImage).'">Preview</a>',
             ]
         );
 
@@ -407,16 +409,14 @@ class Form
         $separator = ',',
         $fieldPrefix = ''
     ) {
-        return $this->_fieldFactory->create(
-            [
-                'fieldData' => [
-                    'value' => (string)$refField,
-                    'negative' => $negative,
-                    'separator' => $separator
-                ],
-                'fieldPrefix' => $fieldPrefix
-            ]
-        );
+        return $this->_fieldFactory->create([
+            'fieldData' => [
+                'value' => (string)$refField,
+                'negative' => $negative,
+                'separator' => $separator
+            ],
+            'fieldPrefix' => $fieldPrefix
+        ]);
     }
 
     public function getMappingFieldDependence()

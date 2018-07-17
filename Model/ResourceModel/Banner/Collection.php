@@ -64,22 +64,33 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * @var \Magestore\Bannerslider\Model\Slider
      */
     protected $_slider;
+
+    protected $_entityFactory;
+    protected $_logger;
+    protected $_fetchStrategy;
+    protected $_eventManager;
+    protected $_connection;
+    protected $_resource;
+
     /**
      * _construct
      * @return void
      */
     protected function _construct()
     {
-        $this->_init('Magestore\Bannerslider\Model\Banner', 'Magestore\Bannerslider\Model\ResourceModel\Banner');
+        $this->_init(
+            'Magestore\Bannerslider\Model\Banner', 
+            'Magestore\Bannerslider\Model\ResourceModel\Banner'
+        );
     }
 
     /**
-     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface    $entityFactory
-     * @param \Psr\Log\LoggerInterface                                     $logger
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Psr\Log\LoggerInterface $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Framework\Event\ManagerInterface                    $eventManager
-     * @param \Zend_Db_Adapter_Abstract                                    $connection
-     * @param \Magento\Framework\Model\ResourceModel\Db\AbstractDb              $resource
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
@@ -93,6 +104,12 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
+        $this->_entityFactory = $entityFactory;
+        $this->_logger = $logger;
+        $this->_fetchStrategy = $fetchStrategy;
+        $this->_eventManger = $eventManager;
+        $this->_connection = $connection;
+        $this->_resource = $resource;
         $this->_storeManager = $storeManager;
         $this->_stdTimezone = $stdTimezone;
         $this->_slider = $slider;
@@ -108,7 +125,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     public function setIsLoadSliderTitle($isLoadSliderTitle)
     {
         $this->_isLoadSliderTitle = $isLoadSliderTitle;
-
         return $this;
     }
 
@@ -130,7 +146,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         if ($this->isLoadSliderTitle()) {
             $this->joinSliderTitle();
         }
-
         return parent::_beforeLoad();
     }
 
@@ -141,9 +156,14 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     public function joinSliderTitle()
     {
         $this->getSelect()->joinLeft(
-            ['sliderTable' => $this->getTable('magestore_bannerslider_slider')],
+            [
+                'sliderTable' => $this->getTable('magestore_bannerslider_slider')
+            ],
             'main_table.slider_id = sliderTable.slider_id',
-            ['title' => 'sliderTable.title', 'slider_status' => 'sliderTable.status']
+            [
+                'title' => 'sliderTable.title', 
+                'slider_status' => 'sliderTable.status'
+            ]
         );
 
         return $this;
@@ -164,7 +184,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     /**
      * get store view id.
      *
-     * @return int [description]
+     * @return int
      */
     public function getStoreViewId()
     {
@@ -174,7 +194,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     /**
      * set store view id.
      *
-     * @param int $storeViewId [description]
+     * @param int $storeViewId
      */
     public function setStoreViewId($storeViewId)
     {
@@ -199,12 +219,14 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             'image_alt',
             'maintable',
         );
-        $storeViewId = $this->getStoreViewId();
+        $storeViewId = $this->getStoreViewId();        
 
-        if (in_array($field, $attributes) && $storeViewId) {
+        if (in_array($field, $attributes) && $storeViewId) {            
             if (!in_array($field, $this->_addedTable)) {
                 $sql = sprintf(
-                    'main_table.banner_id = %s.banner_id AND %s.store_id = %s  AND %s.attribute_code = %s ',
+                    'main_table.banner_id = %s.banner_id AND '.
+                    '%s.store_id = %s AND '.
+                    '%s.attribute_code = %s ',
                     $this->getConnection()->quoteTableAs($field),
                     $this->getConnection()->quoteTableAs($field),
                     $this->getConnection()->quote($storeViewId),
@@ -213,7 +235,11 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 );
 
                 $this->getSelect()
-                    ->joinLeft(array($field => $this->getTable('magestore_bannerslider_value')), $sql, array());
+                     ->joinLeft(
+                         array($field => $this->getTable('magestore_bannerslider_value')), 
+                         $sql, 
+                         array()
+                     );
                 $this->_addedTable[] = $field;
             }
 
@@ -274,6 +300,19 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         return $this;
     }
 
+    protected function newBannerCollection() {
+        return new Collection(
+            $this->_entityFactory,
+            $this->_logger,
+            $this->_fetchStrategy,
+            $this->_eventManager,
+            $this->_storeManager,
+            $this->_stdTimezone,
+            $this->_slider,
+            $this->_connection,
+            $this->_resource
+        );
+    }
 
     public function getBannerCollection($sliderId)
     {
@@ -281,14 +320,16 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $dateTimeNow = $this->_stdTimezone->date()->format('Y-m-d H:i:s');
 
         /** @var \Magestore\Bannerslider\Model\ResourceModel\Banner\Collection $bannerCollection */
-        $bannerCollection = $this->setStoreViewId($storeViewId)
+        $bannerCollection = $this->newBannerCollection()
+            ->setStoreViewId($storeViewId)
             ->addFieldToFilter('slider_id', $sliderId)
             ->addFieldToFilter('status', \Magestore\Bannerslider\Model\Status::STATUS_ENABLED)
             ->addFieldToFilter('start_time', ['lteq' => $dateTimeNow])
             ->addFieldToFilter('end_time', ['gteq' => $dateTimeNow])
             ->setOrder('order_banner', 'ASC');
 
-        if ($this->_slider->getSortType() == \Magestore\Bannerslider\Model\Slider::SORT_TYPE_RANDOM) {
+        if ($bannerCollection->_slider->getSortType() == 
+            \Magestore\Bannerslider\Model\Slider::SORT_TYPE_RANDOM) {
             $bannerCollection->setOrderRandByBannerId();
         }
 
