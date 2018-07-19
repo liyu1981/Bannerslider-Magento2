@@ -120,8 +120,6 @@ class SliderItem extends \Magento\Framework\View\Element\Template
      */
     protected $_stdTimezone;
 
-    protected $_rand;
-
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory
@@ -151,7 +149,6 @@ class SliderItem extends \Magento\Framework\View\Element\Template
         $this->_bannerCollectionFactory = $bannerCollectionFactory;
         $this->_scopeConfig = $context->getScopeConfig();
         $this->_stdTimezone = $_stdTimezone;
-        $this->_rand = random_int(0, 1000);
     }
 
     /**

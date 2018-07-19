@@ -68,6 +68,8 @@
             <argument name="resourceModel" xsi:type="string">Magestore\Bannerslider\Model\ResourceModel\Report</argument>
         </arguments>
     </type>
+    <type name="Magestore\Bannerslider\Model\ResourceModel\Banner\Collection" shared="false">
+    </type>
 
     <virtualType name="BannerGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
         <arguments>

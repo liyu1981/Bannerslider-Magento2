@@ -65,13 +65,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      */
     protected $_slider;
 
-    protected $_entityFactory;
-    protected $_logger;
-    protected $_fetchStrategy;
-    protected $_eventManager;
-    protected $_connection;
-    protected $_resource;
-
     /**
      * _construct
      * @return void
@@ -103,19 +96,35 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $connection = null,
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
     ) {
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
-        $this->_entityFactory = $entityFactory;
-        $this->_logger = $logger;
-        $this->_fetchStrategy = $fetchStrategy;
-        $this->_eventManger = $eventManager;
-        $this->_connection = $connection;
-        $this->_resource = $resource;
         $this->_storeManager = $storeManager;
         $this->_stdTimezone = $stdTimezone;
         $this->_slider = $slider;
         if ($storeViewId = $this->_storeManager->getStore()->getId()) {
             $this->_storeViewId = $storeViewId;
         }
+
+        parent::__construct(
+            $entityFactory, 
+            $logger, 
+            $fetchStrategy, 
+            $eventManager, 
+            $connection, 
+            $resource
+        );
+    }
+
+    protected function newBannerCollection() {
+        return new Collection(
+            $this->_entityFactory,
+            $this->_logger,
+            $this->_fetchStrategy,
+            $this->_eventManager,
+            $this->_storeManager,
+            $this->_stdTimezone,
+            $this->_slider,
+            $this->_connection,
+            $this->_resource
+        );
     }
 
     /**
@@ -250,7 +259,11 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             $fieldCondition = $this->_translateCondition("$field.value", $condition);
 
             $condition = $this->_implodeCondition(
-                $this->_implodeCondition($fieldNullCondition, $mainfieldCondition, \Zend_Db_Select::SQL_AND),
+                $this->_implodeCondition(
+                    $fieldNullCondition, 
+                    $mainfieldCondition, 
+                    \Zend_Db_Select::SQL_AND
+                ),
                 $fieldCondition,
                 \Zend_Db_Select::SQL_OR
             );
@@ -300,27 +313,13 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         return $this;
     }
 
-    protected function newBannerCollection() {
-        return new Collection(
-            $this->_entityFactory,
-            $this->_logger,
-            $this->_fetchStrategy,
-            $this->_eventManager,
-            $this->_storeManager,
-            $this->_stdTimezone,
-            $this->_slider,
-            $this->_connection,
-            $this->_resource
-        );
-    }
-
     public function getBannerCollection($sliderId)
     {
         $storeViewId = $this->_storeManager->getStore()->getId();
         $dateTimeNow = $this->_stdTimezone->date()->format('Y-m-d H:i:s');
 
         /** @var \Magestore\Bannerslider\Model\ResourceModel\Banner\Collection $bannerCollection */
-        $bannerCollection = $this->newBannerCollection()
+        $bannerCollection = $this
             ->setStoreViewId($storeViewId)
             ->addFieldToFilter('slider_id', $sliderId)
             ->addFieldToFilter('status', \Magestore\Bannerslider\Model\Status::STATUS_ENABLED)

@@ -54,14 +54,10 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
      */
     protected $_sliderCollectionFactory;
 
-    protected $_rand;
-
-
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magestore\Bannerslider\Model\ResourceModel\Slider\CollectionFactory $sliderCollectionFactory
-     * @param \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
@@ -70,13 +66,11 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magestore\Bannerslider\Model\ResourceModel\Slider\CollectionFactory $sliderCollectionFactory,
-        \Magestore\Bannerslider\Model\ResourceModel\Banner\CollectionFactory $bannerCollectionFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_coreRegistry = $coreRegistry;
         $this->_sliderCollectionFactory = $sliderCollectionFactory;
-        $this->_rand = random_int(2000, 3000);
     }
 
     /**
