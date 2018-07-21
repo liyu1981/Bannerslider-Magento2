@@ -228,9 +228,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             'image_alt',
             'maintable',
         );
-        $storeViewId = $this->getStoreViewId();        
+        $storeViewId = $this->getStoreViewId();
 
-        if (in_array($field, $attributes) && $storeViewId) {            
+        if (in_array($field, $attributes) && $storeViewId) {
             if (!in_array($field, $this->_addedTable)) {
                 $sql = sprintf(
                     'main_table.banner_id = %s.banner_id AND '.
@@ -245,17 +245,15 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
                 $this->getSelect()
                      ->joinLeft(
-                         array($field => $this->getTable('magestore_bannerslider_value')), 
-                         $sql, 
+                         array($field => $this->getTable('magestore_bannerslider_value')),
+                         $sql,
                          array()
                      );
                 $this->_addedTable[] = $field;
             }
 
             $fieldNullCondition = $this->_translateCondition("$field.value", ['null' => TRUE]);
-
             $mainfieldCondition = $this->_translateCondition("main_table.$field", $condition);
-
             $fieldCondition = $this->_translateCondition("$field.value", $condition);
 
             $condition = $this->_implodeCondition(
@@ -323,8 +321,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             ->setStoreViewId($storeViewId)
             ->addFieldToFilter('slider_id', $sliderId)
             ->addFieldToFilter('status', \Magestore\Bannerslider\Model\Status::STATUS_ENABLED)
-            ->addFieldToFilter('start_time', ['lteq' => $dateTimeNow])
-            ->addFieldToFilter('end_time', ['gteq' => $dateTimeNow])
             ->setOrder('order_banner', 'ASC');
 
         if ($bannerCollection->_slider->getSortType() == 

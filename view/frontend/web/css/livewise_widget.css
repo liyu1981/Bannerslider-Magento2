@@ -1,0 +1,16 @@
+.livewise-widget-3columns .slides-container {
+  text-align: center;
+  margin-top: -36px;
+}
+.livewise-widget-3columns .slides-container .slide {
+  display: inline-block;
+  width: calc(100%/3 - 4px);
+}
+.livewise-widget-3columns .slides-container .slide:first-of-type {
+  float: left;
+  text-align: left;
+}
+.livewise-widget-3columns .slides-container .slide:last-of-type {
+  float: right;
+  text-align: right;
+}

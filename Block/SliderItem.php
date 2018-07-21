@@ -62,9 +62,11 @@ class SliderItem extends \Magento\Framework\View\Element\Template
     /**
      * tempalte for livewise slider.
      */
-    const STYLESLIDE_LIVEWISE = 'Magestore_Bannerslider::slider/livewise.phtml';
-    const STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION = 
+    const STYLESLIDE_LIVEWISE_TEMPLATE = 'Magestore_Bannerslider::slider/livewise.phtml';
+    const STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION_TEMPLATE = 
         'Magestore_Bannerslider::slider/livewise_global_promotion.phtml';
+
+    const STYLESLIDE_LIVEWISE_WIDGET_TEMPLATE_PREFIX = 'Magestore_Bannerslider::widget/';
 
     /**
      * Date conversion model.
@@ -223,18 +225,25 @@ class SliderItem extends \Magento\Framework\View\Element\Template
 
             // LiveWise Sliders
             case SliderModel::STYLESLIDE_LIVEWISE:
-                $this->setTemplate(self::STYLESLIDE_LIVEWISE);
+                $this->setTemplate(self::STYLESLIDE_LIVEWISE_TEMPLATE);
                 break;
 
             case SliderModel::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION:
-                $this->setTemplate(self::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION);
+                $this->setTemplate(self::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION_TEMPLATE);
                 break;
 
-            // Flex slide
+            // Default is custom slide
             default:
-                $this->setTemplate(self::STYLESLIDE_FLEXSLIDER_TEMPLATE);
+                $this->setTemplate(self::STYLESLIDE_CUSTOM_TEMPLATE);
                 break;
         }
+    }
+
+    public function setSliderTemplate($sliderTemplate) {
+        if ($sliderTemplate) {
+            $this->setTemplate(self::STYLESLIDE_LIVEWISE_WIDGET_TEMPLATE_PREFIX.$sliderTemplate);
+        }
+        return $this;
     }
 
     public function isShowTitle()
@@ -326,6 +335,17 @@ class SliderItem extends \Magento\Framework\View\Element\Template
      */
     public function getLivewiseHtmlId()
     {
+        return sprintf(
+            'magestore-bannerslider-livewise-%s%s',
+            $this->getSlider()->getId(),
+            $this->_stdlibDateTime->gmtTimestamp()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getLivewiseWidgetHtmlId() {
         return sprintf(
             'magestore-bannerslider-livewise-%s%s',
             $this->getSlider()->getId(),

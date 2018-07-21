@@ -18,10 +18,15 @@
  * @copyright   Copyright (c) 2012-2016 Magestore (http://www.magestore.com/)
  * @license     http://www.magestore.com/license-agreement.html
  */
+
+$sliderId = $block->getData('slider');
+$sliderTemplate = $block->getData('sliderTemplate');
+$block = $this
+    ->getLayout()
+    ->createBlock('Magestore\Bannerslider\Block\SliderItem')
+    ->setSliderId($sliderId)
+    ->setSliderTemplate($sliderTemplate);
 ?>
 <div class="magestore-bannerslider widget-bannerslider">
-    <?php
-    $sliderId = $block->getData('slider');
-    echo $this->getLayout()->createBlock("Magestore\Bannerslider\Block\SliderItem")->setSliderId($sliderId)->toHtml();
-    ?>
+    <?php echo $block->toHtml(); ?>
 </div>
