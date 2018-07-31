@@ -1,0 +1,13 @@
+<?php
+/** @var \Magestore\Bannerslider\Block\SliderItem $block */
+$htmlId = $block->getLivewiseHtmlId();
+$bannerCollection = $block->getBannerCollection();
+?>
+<div id="<?php echo $htmlId ?>"
+      class="bannerslide-livewise-notice <?php echo $htmlId; ?>">
+  <?php foreach ($bannerCollection as $index => $banner): ?>
+    <div id="<?php echo $index; ?>" class="notice">
+      <?php echo $banner->getCaption(); ?>
+    </div>
+  <?php endforeach; ?>
+</div>

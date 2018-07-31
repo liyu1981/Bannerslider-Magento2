@@ -22,5 +22,7 @@
 $child_html = trim($block->getChildHtml());
 ?>
 <?php if ($child_html !== ''): ?>
-<div class="magestore-bannerslider"><?php echo $child_html; ?></div>
+<div class="magestore-bannerslider <?php echo $block->getPosition(); ?>">
+  <?php echo $child_html; ?>
+</div>
 <?php endif; ?>

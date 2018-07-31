@@ -20,9 +20,16 @@
  * @license     http://www.magestore.com/license-agreement.html
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <body>
+      <referenceContainer name="header.container">
+        <block class="Magestore\Bannerslider\Block\Bannerslider" name="bannerslider.header_notice" before="-">
+          <action method="setPosition">
+            <argument name="position" xsi:type="string">header-notice</argument>
+          </action>
+        </block>
+      </referenceContainer>
       <referenceContainer name="main.content">
         <block class="Magestore\Bannerslider\Block\Bannerslider" name="bannerslider.main.content.top" before="columns">
           <action method="setPosition">

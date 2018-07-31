@@ -82,6 +82,7 @@ class Slider extends \Magento\Framework\Model\AbstractModel
      */
     const STYLESLIDE_LIVEWISE = 10001;
     const STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION = 10002;
+    const STYLESLIDE_LIVEWISE_HEADER_NOTICE = 10003;
 
     /**
      * position code of note slider.

@@ -141,18 +141,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getSliderModeAvailable()
     {
         return [
+            /*
             Slider::STYLESLIDE_EVOLUTION_ONE => 'Slider Evolution Default',
             Slider::STYLESLIDE_EVOLUTION_TWO => 'Slider Evolution Caborno',
             Slider::STYLESLIDE_EVOLUTION_THREE => 'Slider Evolution Minimalist',
             Slider::STYLESLIDE_EVOLUTION_FOUR => 'Slider Evolution Fresh',
             Slider::STYLESLIDE_POPUP => 'Pop up on Home page',
             Slider::STYLESLIDE_SPECIAL_NOTE => 'Note displayed on all pages',
+            */
             Slider::STYLESLIDE_FLEXSLIDER_ONE => 'FlexSlider 1',
             Slider::STYLESLIDE_FLEXSLIDER_TWO => 'FlexSlider 2',
             Slider::STYLESLIDE_FLEXSLIDER_THREE => 'FlexSlider 3',
             Slider::STYLESLIDE_FLEXSLIDER_FOUR => 'FlexSlider 4',
             Slider::STYLESLIDE_LIVEWISE => 'Livewise',
-            Slider::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION => 'Livewise global promotion'
+            Slider::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION => 'Livewise global promotion',
+            Slider::STYLESLIDE_LIVEWISE_HEADER_NOTICE => 'Livewise header notice'
         ];
     }
 
@@ -174,12 +177,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         'value' => Slider::STYLESLIDE_POPUP,
                         'label' => __('Pop up on Home page')
                     ],
+                    /*
                     [
                         'value' => Slider::STYLESLIDE_SPECIAL_NOTE,
                         'label' => __('Note displayed on all pages')
                     ],
+                    */
                 ],
             ],
+            /*
             [
                 'label' => __('Unresponsive Slider'),
                 'value' => [
@@ -201,6 +207,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     ],
                 ],
             ],
+            */
             [
                 'label' => __('Responsive Slider'),
                 'value' => [
@@ -233,6 +240,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         'label' => __('Livewise global promotion'),
                         'value' => Slider::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION,
                     ],
+                    [
+                        'label' => __('Livewise header notice'),
+                        'value' => Slider::STYLESLIDE_LIVEWISE_HEADER_NOTICE,
+                    ]
                 ],
             ],
         ];
@@ -336,6 +347,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     ['value' => 'menu-top', 'label' => __('Menu-Top')],
                     ['value' => 'menu-bottom', 'label' => __('Menu-Bottom')],
                     ['value' => 'page-bottom', 'label' => __('Page-Bottom')],
+                    ['value' => 'header-notice', 'label' => __('Header-Notice')],
                 ],
             ],
             [
@@ -467,6 +479,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             'customer-content-top' => __('Customer-Content-Top'),
             'customer-sidebar-main-bottom' => __('Customer-Siderbar-Main-Bottom'),
             'customer-sidebar-main-top' => __('Customer-Siderbar-Main-Top'),
+            'header-notice' => __('Header-Notice'),
             'main-content-top' => __('Main-Content-Top(all pages)'),
             'menu-bottom' => __('Menu-Bottom(all pages)'),
             'menu-top' => __('Menu-Top(all pages)'),
@@ -496,6 +509,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getCoreSlider()
     {
         return [
+            /*
             [
                 'label' => __('Slider Evolution Default'),
                 'value' => Slider::STYLESLIDE_EVOLUTION_ONE,
@@ -516,6 +530,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 'label' => __('Note display on all pages'),
                 'value' => Slider::STYLESLIDE_SPECIAL_NOTE,
             ],
+            */
             [
                 'label' => __('FlexSlider 1'),
                 'value' => Slider::STYLESLIDE_FLEXSLIDER_ONE,

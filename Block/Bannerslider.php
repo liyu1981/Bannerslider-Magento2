@@ -54,6 +54,8 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
      */
     protected $_sliderCollectionFactory;
 
+    protected $_position;
+
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
@@ -71,6 +73,7 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
         parent::__construct($context, $data);
         $this->_coreRegistry = $coreRegistry;
         $this->_sliderCollectionFactory = $sliderCollectionFactory;
+        $this->_position = null;
     }
 
     /**
@@ -81,7 +84,7 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
         $store = $this->_storeManager->getStore()->getId();
 
         if ($this->_scopeConfig->getValue(
-                SliderModel::XML_CONFIG_BANNERSLIDER, 
+                SliderModel::XML_CONFIG_BANNERSLIDER,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
             )) {
@@ -119,6 +122,7 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
      */
     public function setPosition($position)
     {
+        $this->_position = $position;
         $sliderCollection = $this->_sliderCollectionFactory
             ->create()
             ->addFieldToFilter('position', $position)
@@ -126,6 +130,10 @@ class Bannerslider extends \Magento\Framework\View\Element\Template
         $this->appendChildBlockSliders($sliderCollection);
 
         return $this;
+    }
+
+    public function getPosition() {
+        return $this->_position ? $this->_position : '';
     }
 
     /**

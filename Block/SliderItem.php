@@ -63,8 +63,10 @@ class SliderItem extends \Magento\Framework\View\Element\Template
      * tempalte for livewise slider.
      */
     const STYLESLIDE_LIVEWISE_TEMPLATE = 'Magestore_Bannerslider::slider/livewise.phtml';
-    const STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION_TEMPLATE = 
+    const STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION_TEMPLATE =
         'Magestore_Bannerslider::slider/livewise_global_promotion.phtml';
+    const STYLESLIDE_LIVEWISE_HEADER_NOTICE_TEMPLATE =
+        'Magestore_Bannerslider::slider/livewise_header_notice.phtml';
 
     const STYLESLIDE_LIVEWISE_WIDGET_TEMPLATE_PREFIX = 'Magestore_Bannerslider::widget/';
 
@@ -230,6 +232,10 @@ class SliderItem extends \Magento\Framework\View\Element\Template
 
             case SliderModel::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION:
                 $this->setTemplate(self::STYLESLIDE_LIVEWISE_GLOBAL_PROMOTION_TEMPLATE);
+                break;
+
+            case SliderModel::STYLESLIDE_LIVEWISE_HEADER_NOTICE:
+                $this->setTemplate(self::STYLESLIDE_LIVEWISE_HEADER_NOTICE_TEMPLATE);
                 break;
 
             // Default is custom slide
