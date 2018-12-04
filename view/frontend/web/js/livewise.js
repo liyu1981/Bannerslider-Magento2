@@ -43,7 +43,7 @@ define(['jquery', 'livewise/GSAP'], function($, GSAP) {
         $canvas.data(DATA_GSAPANI_KEY, ga);
         ga.run();
       } catch (err) {
-        console.error(err);
+        //console.error(err);
       }
     }
   }
