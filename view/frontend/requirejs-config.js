@@ -31,6 +31,9 @@ var config = {
         'magestore/zebra-tooltips': {
             deps: ['jquery']
         },
+        'magestore/popup': {
+            deps: ['jquery']
+        },
         'GSAP/TimelineMax': {
             deps: ['GSAP/TweenMax']
         },
