@@ -26,8 +26,19 @@ $styleSlide = $block->getSlider()->getStyleSlide();
 $slider = $block->getSlider();
 $banner = $block->getFirstBannerItem();
 ?>
-<div id="magestore-bannerslider-popup-<?php echo $block->escapeHtml($slider->getId()) ?>" class="magestore-bannerslider-popup" data-mage-init='{"magestore/impress": {"url": "<?php echo $this->getUrl("bannerslider/index/impress") ?>", "slider_id": "<?php echo $block->escapeHtml($block->getSlider()->getId()) ?>"}}'>
-    <div id="magestore-bannerslider-popup-close-<?php echo $slider->getId() ?>" title="Close"></div>
+<div id="magestore-bannerslider-popup-<?php echo $block->escapeHtml($slider->getId()) ?>"
+     class="magestore-bannerslider-popup"
+     data-mage-init='{
+         "magestore/impress": {
+            "url": "<?php echo $this->getUrl("bannerslider/index/impress") ?>",
+            "slider_id": "<?php echo $block->escapeHtml($block->getSlider()->getId()) ?>"
+         }
+     }'>
+    <div class="magestore-bannerslider-popup-close b-close"
+         id="magestore-bannerslider-popup-close-<?php echo $slider->getId() ?>"
+         title="Close">
+        <span>Close</span>
+    </div>
     <?php if ($slider->getShowTitle() == 1) :
     ?>
         <p style="text-transform: uppercase; color: #e26703; margin-bottom: 0px; background-color: rgb(255, 255, 255);">
@@ -36,8 +47,19 @@ $banner = $block->getFirstBannerItem();
     <?php endif; ?>
     <?php if ($banner->getId()) :
     ?>
-        <a href="<?php echo $block->escapeHtml($banner->getClickUrl()) ?>" target="<?php echo $block->escapeHtml($banner->getTargetValue()) ?>" style="display:block;" data-mage-init='{"magestore/clickbanner": {"url": "<?php echo $this->getUrl("bannerslider/index/click") ?>", "slider_id": "<?php echo $block->escapeHtml($banner->getSliderId()) ?>", "banner_id": "<?php echo $block->escapeHtml($banner->getId()) ?>" }}' >
-            <img style="width:<?php echo $slider->getWidth() ?>px; height: <?php echo $slider->getHeight() ?>px;"  alt="<?php echo $banner->getImageAlt() ?>" src="<?php echo $block->getBannerImageUrl($banner) ?>"/>
+        <a href="<?php echo $block->escapeHtml($banner->getClickUrl()) ?>"
+           target="<?php echo $block->escapeHtml($banner->getTargetValue()) ?>"
+           style="display:block;"
+           data-mage-init='{
+               "magestore/clickbanner": {
+                   "url": "<?php echo $this->getUrl("bannerslider/index/click") ?>",
+                   "slider_id": "<?php echo $block->escapeHtml($banner->getSliderId()) ?>",
+                   "banner_id": "<?php echo $block->escapeHtml($banner->getId()) ?>"
+               }
+           }' >
+            <img style="width:<?php echo $slider->getWidth() ?>px; height: <?php echo $slider->getHeight() ?>px;"
+                 alt="<?php echo $banner->getImageAlt() ?>"
+                 src="<?php echo $block->getBannerImageUrl($banner) ?>"/>
         </a>
     <?php endif ?>
     </div>

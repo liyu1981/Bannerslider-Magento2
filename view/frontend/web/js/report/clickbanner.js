@@ -24,7 +24,8 @@ define([
         _create: function() {
             var o = this.options;
             this.element.each(function(index, el) {
-                $(el).click(function(event) {
+                var $el = $(el);
+                $el.click(function(event) {
                     $.ajax({
                         url: o.url,
                         type: 'POST',
@@ -36,7 +37,11 @@ define([
                     }).done(function() {
                         console.log("success");
                     });
-
+                    if ($el.attr('target') === '_self') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        $('#magestore-bannerslider-popup-close-' + o.slider_id).click();
+                    }
                 });
             });
 
